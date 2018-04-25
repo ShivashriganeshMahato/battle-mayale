@@ -9,8 +9,11 @@ public class ServerRunner {
 
         do {
             try {
-                port = Integer.parseInt(JOptionPane.showInputDialog(null, "Which port to listen to?"));
-                if (port < 0 || port > 65535)
+                String output = JOptionPane.showInputDialog(null, "Which port to listen to?");
+                if (output.length() == 0)
+                    break;
+                port = Integer.parseInt(output);
+                if (port > 65535)
                     throw new NumberFormatException();
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null, "Please enter a number from 0 to 65535");
@@ -19,6 +22,10 @@ public class ServerRunner {
             isValid = true;
         } while (!isValid);
 
-        new ServerManager(port);
+
+        if (port < 0)
+            System.exit(0);
+        else
+            new ServerManager(port);
     }
 }

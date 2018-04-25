@@ -15,12 +15,12 @@ public class ServerManager extends Server {
 
     @Override
     public void process(int i, String s) {
-
+        System.out.println(s);
     }
 
     @Override
     public void onJoin(int i) {
-
+        System.out.println(i);
     }
 
     @Override
