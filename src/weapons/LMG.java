@@ -1,14 +1,11 @@
 package weapons;
 
-public class LMG
+public class LMG extends Weapon
 {
-    int magSize = 40;
 
-    public void shoot()
+    public LMG()
     {
-        if(magSize != 0)
-        {
-            //spawn bullet
-        }
+        super(3, 40, 1);
     }
+
 }

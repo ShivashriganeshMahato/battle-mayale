@@ -1,14 +1,11 @@
 package weapons;
 
-public class Shotgun
+public class Shotgun extends Weapon
 {
-    int magSize = 2;
 
-    public void shoot()
+    public Shotgun()
     {
-        if(magSize != 0)
-        {
-            //spawn bullet
-        }
+        super(6, 2, 4);
     }
+
 }
