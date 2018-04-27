@@ -6,4 +6,5 @@ public class SMG extends Weapon
     {
         super(6, 30, 1, 7);
     }
+
 }
