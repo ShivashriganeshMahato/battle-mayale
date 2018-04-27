@@ -5,7 +5,7 @@ public class LMG extends Weapon
 
     public LMG()
     {
-        super(3, 40, 1);
+        super(6, 40, 1, 6);
     }
 
 }

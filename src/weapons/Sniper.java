@@ -5,7 +5,7 @@ public class Sniper extends Weapon
 
     public Sniper()
     {
-        super(6, 5, 1);
+        super(8, 5, 1, 20);
     }
 
 }

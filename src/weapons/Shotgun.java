@@ -5,7 +5,7 @@ public class Shotgun extends Weapon
 
     public Shotgun()
     {
-        super(6, 2, 4);
+        super(8, 2, 5, 10);
     }
 
 }
