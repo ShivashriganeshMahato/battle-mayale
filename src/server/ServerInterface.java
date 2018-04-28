@@ -1,26 +1,55 @@
+
 package server;
 
+import mayflower.Mayflower;
 import mayflower.Stage;
 import mayflower.Text;
+import player.Player;
+import ui.PlayerText;
+import ui.Button;
 
-import java.util.Map;
-import java.util.Queue;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ServerInterface extends Stage {
-    private Map<String, String> names;
-    private Text clientsTxt;
+    private List<PlayerText> players;
+    private ServerManager manager;
+    private Button button;
 
-    public ServerInterface(Map<String, String> names) {
-        this.names = names;
-        clientsTxt = new Text("");
-        addActor(clientsTxt, 20, 20);
+    public ServerInterface(int port) {
+        setBackgroundColor(Color.WHITE);
+        players = new ArrayList<>();
+        manager = new ServerManager(port, this);
+        button = new Button("PLAY");
+        addActor(button, 600, 20);
+        addActor(new Text("Players:"), 50, 10);
+
+        new Mayflower("Battle Mayale Server", 800, 600, this);
     }
 
     @Override
     public void update() {
-        System.out.println(clientsTxt.toString());
-        for (String name : names.values()) {
-            clientsTxt.setText(clientsTxt.toString() + name + " ");
+        if (players.size() < 3) {
+//            button.disable();
+        } else {
+            button.enable();
+        }
+    }
+
+    public void addPlayer(Player player) {
+        System.out.println("CALLING");
+        PlayerText text = new PlayerText(player, false);
+        players.add(text);
+        addActor(text, 50, 50 * players.size());
+    }
+
+    public void editPlayer(Player player) {
+        for (PlayerText text : players) {
+            if (text.getId() == player.getId()) {
+                text.setName(player.getName());
+                break;
+            }
         }
     }
 }
