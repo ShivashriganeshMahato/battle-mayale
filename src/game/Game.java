@@ -13,6 +13,10 @@ public class Game {
     private Map map;
     private boolean isOver;
 
+    public Game(List<Player> players) {
+        this.players = players;
+    }
+
     public void addPlayer(Player player) {
         players.add(player);
         alive.add(player);

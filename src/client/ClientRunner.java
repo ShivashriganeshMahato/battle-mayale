@@ -1,4 +1,4 @@
-import javax.swing.*;
+package client;
 
 public class ClientRunner {
     public static void main(String[] args) {
@@ -19,6 +19,6 @@ public class ClientRunner {
 //
 //        System.out.println(IP);
 
-        new ClientInterface();
+        new ClientInterface("localhost", 1234);
     }
 }

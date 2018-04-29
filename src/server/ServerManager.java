@@ -55,7 +55,31 @@ public class ServerManager extends Server {
             gamePlayers.add(playerQueue.remove());
         }
 
+        game = new Game(gamePlayers);
+
+        String command = getGameCommand(gamePlayers);
+        for (Player player : gamePlayers) {
+            send(player.getId(), command);
+        }
+
         return gamePlayers;
+    }
+
+    private String getGameCommand(List<Player> players) {
+        StringBuilder builder = new StringBuilder("game ");
+
+        for (Player player : players) {
+            builder.append(player.getName()).append(" ");
+            builder.append(player.getId()).append(" ");
+            builder.append(player.getX()).append(" ");
+            builder.append(player.getY()).append(" ");
+        }
+
+        return builder.toString();
+    }
+
+    public Game getGame() {
+        return game;
     }
 
     /*

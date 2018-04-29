@@ -38,10 +38,10 @@ public class ServerInterface extends Stage {
 
     @Override
     public void update() {
-        if (players.size() < 3) {
-            button.disable();
-        } else {
+        if (players.size() >= 3 && manager.getGame() == null) {
             button.enable();
+        } else {
+//            button.disable();
         }
 
         if (button.isClicked() && !button.isDisabled()) {
@@ -60,7 +60,6 @@ public class ServerInterface extends Stage {
     }
 
     public void addPlayer(Player player) {
-        System.out.println("CALLING");
         PlayerText text = new PlayerText(player, false);
         players.add(text);
         addActor(text, 50, 50 * players.size());
