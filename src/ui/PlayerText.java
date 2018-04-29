@@ -37,6 +37,7 @@ public class PlayerText extends Text {
 
     public void setId(int id) {
         this.id = id;
+        updateText();
     }
 
     public boolean isInGame() {
@@ -45,6 +46,7 @@ public class PlayerText extends Text {
 
     public void setInGame(boolean inGame) {
         isInGame = inGame;
+        updateText();
     }
 
     private void updateText() {

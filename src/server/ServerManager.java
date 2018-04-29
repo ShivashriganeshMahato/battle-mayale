@@ -4,7 +4,9 @@ import game.Game;
 import mayflower.net.Server;
 import player.Player;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Queue;
 
 public class ServerManager extends Server {
@@ -45,4 +47,19 @@ public class ServerManager extends Server {
     public void onExit(int i) {
 
     }
+
+    public List<Player> startGame() {
+        List<Player> gamePlayers = new ArrayList<>();
+
+        while (playerQueue.size() > 0 && gamePlayers.size() <= 12) {
+            gamePlayers.add(playerQueue.remove());
+        }
+
+        return gamePlayers;
+    }
+
+    /*
+    construct game with first 12
+    send "game {names}"
+     */
 }

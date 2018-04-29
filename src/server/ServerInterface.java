@@ -28,12 +28,34 @@ public class ServerInterface extends Stage {
         new Mayflower("Battle Mayale Server", 800, 600, this);
     }
 
+    /*
+     * onClick PLAY
+     *  sm.startgame()
+     *  ^
+     *  | ret list of players
+     *  change playertexts
+     */
+
     @Override
     public void update() {
         if (players.size() < 3) {
-//            button.disable();
+            button.disable();
         } else {
             button.enable();
+        }
+
+        if (button.isClicked() && !button.isDisabled()) {
+            setInGame(manager.startGame());
+            button.disable();
+        }
+    }
+
+    private void setInGame(List<Player> players) {
+        for (Player player : players) {
+            for (PlayerText text : this.players) {
+                if (player.getId() == text.getId())
+                    text.setInGame(true);
+            }
         }
     }
 

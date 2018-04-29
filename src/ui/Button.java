@@ -19,13 +19,6 @@ public class Button extends Text {
         setText(text);
     }
 
-    @Override
-    public void update() {
-        if (isClicked() && !isDisabled) {
-            JOptionPane.showMessageDialog(null, "START GAME");
-        }
-    }
-
     public void setBtnText(String text) {
         this.text = text;
         setText(text);
@@ -39,5 +32,9 @@ public class Button extends Text {
     public void enable() {
         setColor(Color.BLACK);
         isDisabled = false;
+    }
+
+    public boolean isDisabled() {
+        return isDisabled;
     }
 }
