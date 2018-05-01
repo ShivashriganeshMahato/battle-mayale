@@ -47,7 +47,8 @@ public class Character extends Actor
         ammo = 0;
         mass = new Mass(center,1,0);
         charBod.setMass(mass);
-        setPicture("src/Red_Dye_block.jpg");
+        setPicture("src/RAWR.jpg");
+
     }
 
       //  charBod.setMass(mass);
