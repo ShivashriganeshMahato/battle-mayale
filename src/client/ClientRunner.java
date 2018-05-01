@@ -21,6 +21,6 @@ public class ClientRunner {
 
         System.out.println(IP);
 
-        new ClientInterface("localhost", 1234);
+        new ClientInterface(IP, 1234);
     }
 }

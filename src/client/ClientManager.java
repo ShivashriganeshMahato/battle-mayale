@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ClientManager extends Client {
     public ClientManager(String IP, int port) {
-        connect("localhost", 1234);
+        connect(IP, port);
     }
 
     @Override
@@ -46,17 +46,17 @@ public class ClientManager extends Client {
     public void onConnect() {
         String name;
 
-//        do {
-//            String output = JOptionPane.showInputDialog("What is your name?");
-//            if (output.contains(" ") || output.length() == 0) {
-//                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
-//                continue;
-//            }
-//            name = output;
-//            break;
-//        } while (true);
+        do {
+            String output = JOptionPane.showInputDialog("What is your name?");
+            if (output.contains(" ") || output.length() == 0) {
+                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
+                continue;
+            }
+            name = output;
+            break;
+        } while (true);
 
-//        send("name " + name);
-        send("name Joe");
+        send("name " + name);
+//        send("name Joe");
     }
 }
