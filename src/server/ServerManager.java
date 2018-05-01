@@ -39,13 +39,23 @@ public class ServerManager extends Server {
 
     @Override
     public void onJoin(int i) {
-        System.out.println(i);
+        System.out.println(i + " connected.");
         Player newPlayer = new Player("", i);
         playerQueue.add(newPlayer);
     }
 
     @Override
     public void onExit(int i) {
+        System.out.println(i + " disconnected.");
+        Player toRemove = null;
+        for (Player player : playerQueue) {
+            if (player.getId() == i)
+                toRemove = player;
+        }
+        if (game != null)
+            game.kill(toRemove);
+        serverInterface.removePlayer(toRemove);
+        playerQueue.remove(toRemove);
 
     }
 

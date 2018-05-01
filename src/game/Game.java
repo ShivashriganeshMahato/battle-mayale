@@ -23,7 +23,8 @@ public class Game {
     }
 
     public void kill(Player player) {
-        alive.remove(player);
+        if (player != null)
+            alive.remove(player);
     }
 
     public void end() {

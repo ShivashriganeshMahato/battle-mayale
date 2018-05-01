@@ -25,7 +25,7 @@ public class ServerInterface extends Stage {
         addActor(button, 600, 20);
         addActor(new Text("Players:"), 50, 10);
 
-        new Mayflower("Battle Mayale Server", 800, 600, this);
+        new Mayflower("Battle Mayale Server", 800, 800, this);
     }
 
     /*
@@ -41,12 +41,16 @@ public class ServerInterface extends Stage {
         if (players.size() >= 3 && manager.getGame() == null) {
             button.enable();
         } else {
-//            button.disable();
+            button.disable();
         }
 
         if (button.isClicked() && !button.isDisabled()) {
             setInGame(manager.startGame());
             button.disable();
+        }
+
+        for (int i = 0; i < players.size(); i++) {
+            players.get(i).setPosition(50, 50 + i * 50);
         }
     }
 
@@ -62,7 +66,7 @@ public class ServerInterface extends Stage {
     public void addPlayer(Player player) {
         PlayerText text = new PlayerText(player, false);
         players.add(text);
-        addActor(text, 50, 50 * players.size());
+        addActor(text, 0, 0);
     }
 
     public void editPlayer(Player player) {
@@ -72,5 +76,17 @@ public class ServerInterface extends Stage {
                 break;
             }
         }
+    }
+
+    public void removePlayer(Player player) {
+        PlayerText toRemove = null;
+        for (PlayerText text : players) {
+            if (text.getId() == player.getId()) {
+                toRemove = text;
+                break;
+            }
+        }
+        removeActor(toRemove);
+        players.remove(toRemove);
     }
 }

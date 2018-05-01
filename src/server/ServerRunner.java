@@ -27,5 +27,6 @@ public class ServerRunner {
             System.exit(0);
         else
             new ServerInterface(port);
+//        new ServerInterface(1234);
     }
 }
