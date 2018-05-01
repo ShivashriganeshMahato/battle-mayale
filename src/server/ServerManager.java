@@ -16,6 +16,7 @@ public class ServerManager extends Server {
 
     public ServerManager(int port, ServerInterface serverInterface) {
         super(port);
+        System.out.println(getIP());
         playerQueue = new LinkedList<>();
         this.serverInterface = serverInterface;
         game = null;
