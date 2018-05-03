@@ -15,14 +15,12 @@ import java.awt.*;
  */
 public class Player extends Actor
 {
-    private Vector2 position;
     private String name;
     private int id;
     public org.dyn4j.geometry.Vector2 center;
     private Mass mass;
     private int health;
-    public int charX;
-    public int charY;
+
 
     public Body charBod;
     private Rectangle rect;
@@ -68,25 +66,16 @@ public class Player extends Actor
         this.id = id;
     }
 
-    public int getX() {
-        return (int)position.getX();
+    public void setX(int x)
+    {
+        this.setPosition(x,this.getY());
+    }
+    public void setY(int y)
+    {
+        this.setPosition(this.getX(),y);
+
     }
 
-    public int getY() {
-        return (int)position.getY();
-    }
-
-    public Vector2 getPosition() {
-        return position;
-    }
-
-    public void setX(double x) {
-        position.setX(x);
-    }
-
-    public void setY(double y) {
-        position.setY(y);
-    }
 
     public void update()
     {

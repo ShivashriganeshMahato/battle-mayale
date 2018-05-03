@@ -27,10 +27,10 @@ public class ClientManager extends Client {
                         newPlayer.setId(Integer.parseInt(command[i]));
                         break;
                     case 3:
-                        newPlayer.setX(Double.parseDouble(command[i]));
+                        newPlayer.setX(Integer.parseInt(command[i]));
                         break;
                     case 0:
-                        newPlayer.setY(Double.parseDouble(command[i]));
+                        newPlayer.setY(Integer.parseInt(command[i]));
                         players.add(newPlayer);
                         break;
                 }
