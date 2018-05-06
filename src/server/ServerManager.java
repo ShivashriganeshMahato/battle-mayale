@@ -34,6 +34,16 @@ public class ServerManager extends Server {
                     break;
                 }
             }
+        } else if (command[0].equals("move")) {
+            int xNew = Integer.parseInt(command[1]);
+            int yNew = Integer.parseInt(command[2]);
+            for (Player player : game.getPlayers()) {
+                if (player.getId() == i) {
+                    player.setPosition(xNew, yNew);
+                } else {
+                    send(player.getId(), "move " + i + " " + xNew + " " + yNew);
+                }
+            }
         }
     }
 
@@ -92,9 +102,4 @@ public class ServerManager extends Server {
     public Game getGame() {
         return game;
     }
-
-    /*
-    construct game with first 12
-    send "game {names}"
-     */
 }

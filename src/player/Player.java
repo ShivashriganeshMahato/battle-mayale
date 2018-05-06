@@ -17,11 +17,13 @@ public class Player extends Actor {
     private Keyboard keyListener;
     private PointerInfo mousePos;
     private boolean canMove;
+    private boolean didJustMove;
 
     public Player(String name, int id, int x, int y, boolean canMove) {
         this.name = name;
         this.id = id;
         this.canMove = canMove;
+        didJustMove = false;
         health = 100;
         isAlive = true;
         fireSpeed = 0;
@@ -64,6 +66,7 @@ public class Player extends Actor {
 
     public void update() {
         if (canMove) {
+            didJustMove = false;
             keyListener = getKeyboard();
             mousePos = MouseInfo.getPointerInfo();
             Point b = mousePos.getLocation();
@@ -72,23 +75,31 @@ public class Player extends Actor {
             if (keyListener.isKeyPressed("W")) {
                 //weapon.move(1,"NORTH");
                 move(1, "NORTH");
+                didJustMove = true;
             }
             if (keyListener.isKeyPressed("S")) {
                 // weapon.move(1,"SOUTH");
                 move(1, "SOUTH");
+                didJustMove = true;
             }
             if (keyListener.isKeyPressed("A")) {
                 //weapon.move(1,"WEST");
                 move(1, "WEST");
+                didJustMove = true;
             }
             if (keyListener.isKeyPressed("D")) {
                 //weapon.move(1,"EAST");
                 move(1, "EAST");
+                didJustMove = true;
             }
         }
     }
 
     public void setCanMove(boolean canMove) {
         this.canMove = canMove;
+    }
+
+    public boolean didJustMove() {
+        return didJustMove;
     }
 }

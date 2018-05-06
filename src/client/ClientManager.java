@@ -5,14 +5,17 @@ import mayflower.net.Client;
 import player.Player;
 import stages.GameStage;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ClientManager extends Client {
+    private Game game;
     private ClientInterface clientInterface;
 
     public ClientManager(String IP, int port, ClientInterface clientInterface) {
         connect(IP, port);
+        game = null;
         this.clientInterface = clientInterface;
     }
 
@@ -40,11 +43,18 @@ public class ClientManager extends Client {
                 }
             }
 
-            Game game = new Game(players);
+            game = new Game(players, this);
             GameStage stage = new GameStage(game, Integer.parseInt(command[1]));
             clientInterface.setStage(stage);
+        } else if (command[0].equals("move")) {
+            int xNew = Integer.parseInt(command[2]);
+            int yNew = Integer.parseInt(command[3]);
+            for (Player player : game.getPlayers()) {
+                if (player.getId() == Integer.parseInt(command[1])) {
+                    player.setPosition(xNew, yNew);
+                }
+            }
         }
-
     }
 
     @Override
@@ -53,19 +63,19 @@ public class ClientManager extends Client {
 
     @Override
     public void onConnect() {
-//        String name;
-//
-//        do {
-//            String output = JOptionPane.showInputDialog("What is your name?");
-//            if (output.contains(" ") || output.length() == 0) {
-//                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
-//                continue;
-//            }
-//            name = output;
-//            break;
-//        } while (true);
-//
-//        send("name " + name);
-        send("name Joe");
+        String name;
+
+        do {
+            String output = JOptionPane.showInputDialog("What is your name?");
+            if (output.contains(" ") || output.length() == 0) {
+                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
+                continue;
+            }
+            name = output;
+            break;
+        } while (true);
+
+        send("name " + name);
+//        send("name Joe");
     }
 }
