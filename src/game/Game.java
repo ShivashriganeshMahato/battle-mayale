@@ -1,5 +1,7 @@
 package game;
 
+import client.ClientInterface;
+import client.ClientManager;
 import player.Player;
 
 import java.util.List;
@@ -12,9 +14,15 @@ public class Game {
     private List<Player> alive;
     private Map map;
     private boolean isOver;
+    private ClientManager client;
+
+    public Game(List<Player> players, ClientManager client) {
+        this.players = players;
+        this.client = client;
+    }
 
     public Game(List<Player> players) {
-        this.players = players;
+        this(players, null);
     }
 
     public void addPlayer(Player player) {
@@ -27,7 +35,15 @@ public class Game {
             alive.remove(player);
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     public void end() {
         isOver = true;
+    }
+
+    public void sendCommand(String commandToSend) {
+        client.send(commandToSend);
     }
 }
