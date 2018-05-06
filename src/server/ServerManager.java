@@ -70,14 +70,14 @@ public class ServerManager extends Server {
 
         String command = getGameCommand(gamePlayers);
         for (Player player : gamePlayers) {
-            send(player.getId(), command);
+            send(player.getId(), "game " + player.getId() + " " + command);
         }
 
         return gamePlayers;
     }
 
     private String getGameCommand(List<Player> players) {
-        StringBuilder builder = new StringBuilder("game ");
+        StringBuilder builder = new StringBuilder("");
 
         for (Player player : players) {
             builder.append(player.getName()).append(" ");

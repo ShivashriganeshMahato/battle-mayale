@@ -27,6 +27,10 @@ public class Game {
             alive.remove(player);
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
     public void end() {
         isOver = true;
     }

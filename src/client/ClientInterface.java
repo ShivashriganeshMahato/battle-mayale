@@ -1,21 +1,31 @@
 package client;
 
+import game.Game;
 import mayflower.Mayflower;
 import mayflower.Stage;
+import player.Player;
+import stages.GameStage;
+import stages.QueueStage;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Shivashriganesh Mahato
  */
-public class ClientInterface extends Stage {
-    private ClientManager manager;
+public class ClientInterface {
+    private ClientManager clientManager;
+    private Stage curStage;
+    private Mayflower application;
 
     public ClientInterface(String IP, int port) {
-        manager = new ClientManager(IP, port);
-        new Mayflower("Battle Mayale Server", 800, 600, this);
+        clientManager = new ClientManager(IP, port, this);
+
+        curStage = new QueueStage();
+        application = new Mayflower("Battle Mayale Server", 800, 600, curStage);
     }
 
-    @Override
-    public void update() {
-
+    public void setStage(Stage stage) {
+        application.setStage(stage);
     }
 }

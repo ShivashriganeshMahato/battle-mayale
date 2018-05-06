@@ -2,52 +2,40 @@ package player;
 
 import mayflower.Actor;
 import mayflower.Keyboard;
-import org.dyn4j.dynamics.Body;
-import org.dyn4j.dynamics.BodyFixture;
-import org.dyn4j.geometry.Mass;
-import org.dyn4j.geometry.Rectangle;
-import util.Vector2;
-
 import java.awt.*;
 
 /**
  * @author Shivashriganesh Mahato
  */
-public class Player extends Actor
-{
+public class Player extends Actor {
     private String name;
     private int id;
-    public org.dyn4j.geometry.Vector2 center;
-    private Mass mass;
     private int health;
-
-
-    public Body charBod;
-    private Rectangle rect;
-    private BodyFixture charFix;
     private int ammo;
-    public int fireSpeed;
-    public boolean isAlive;
-    public Keyboard keyListener;
-    public PointerInfo mousePos;
-    public Player(String name, int id) {
+    private int fireSpeed;
+    private boolean isAlive;
+    private Keyboard keyListener;
+    private PointerInfo mousePos;
+    private boolean canMove;
+
+    public Player(String name, int id, int x, int y, boolean canMove) {
         this.name = name;
         this.id = id;
-        //center = new org.dyn4j.geometry.Vector2(x-x/2,y-y/2);
-
-
-
-
-        //charFix = new BodyFixture(rect);
-       //// charBod = new Body();
-       // charBod.addFixture(charFix);
+        this.canMove = canMove;
         health = 100;
         isAlive = true;
         fireSpeed = 0;
         ammo = 0;
-        //mass = new Mass(center,1,0);
-        //charBod.setMass(mass);
         setPicture("src/RAWR.jpg");
+        setPosition(x, y);
+    }
+
+    public Player(String name, int id, int x, int y) {
+        this(name, id, x, y, true);
+    }
+
+    public Player(String name, int id) {
+        this(name, id, 0, 0, true);
     }
 
     public String getName() {
@@ -66,47 +54,41 @@ public class Player extends Actor
         this.id = id;
     }
 
-    public void setX(int x)
-    {
-        this.setPosition(x,this.getY());
-    }
-    public void setY(int y)
-    {
-        this.setPosition(this.getX(),y);
-
+    public void setX(int x) {
+        this.setPosition(x, this.getY());
     }
 
+    public void setY(int y) {
+        this.setPosition(this.getX(), y);
+    }
 
-    public void update()
-    {
-        keyListener = getKeyboard();
-        mousePos = MouseInfo.getPointerInfo();
-        Point b = mousePos.getLocation();
-        int gunX = (int)b.getX();
-        int gunY = (int)b.getY();
-        if(keyListener.isKeyPressed("W"))
-        {
-
-            //weapon.move(1,"NORTH");
-            move(1,"NORTH");
+    public void update() {
+        if (canMove) {
+            keyListener = getKeyboard();
+            mousePos = MouseInfo.getPointerInfo();
+            Point b = mousePos.getLocation();
+            int gunX = (int) b.getX();
+            int gunY = (int) b.getY();
+            if (keyListener.isKeyPressed("W")) {
+                //weapon.move(1,"NORTH");
+                move(1, "NORTH");
+            }
+            if (keyListener.isKeyPressed("S")) {
+                // weapon.move(1,"SOUTH");
+                move(1, "SOUTH");
+            }
+            if (keyListener.isKeyPressed("A")) {
+                //weapon.move(1,"WEST");
+                move(1, "WEST");
+            }
+            if (keyListener.isKeyPressed("D")) {
+                //weapon.move(1,"EAST");
+                move(1, "EAST");
+            }
         }
-        if(keyListener.isKeyPressed("S"))
-        {
-           // weapon.move(1,"SOUTH");
-            move(1,"SOUTH");
+    }
 
-        }
-        if(keyListener.isKeyPressed("A"))
-        {
-            //weapon.move(1,"WEST");
-            move(1,"WEST");
-
-        }
-        if(keyListener.isKeyPressed("D"))
-        {
-            //weapon.move(1,"EAST");
-            move(1,"EAST");
-
-        }
+    public void setCanMove(boolean canMove) {
+        this.canMove = canMove;
     }
 }
