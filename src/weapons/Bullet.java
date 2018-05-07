@@ -14,6 +14,7 @@ public class Bullet extends Actor
 
     @Override
     public void update() {
+        this.setPosition(getX()+speed, getY()+speed);
 
     }
 }

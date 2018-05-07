@@ -1,5 +1,9 @@
 package weapons;
 
+import mayflower.Actor;
+import mayflower.Mouse;
+
+import java.awt.*;
 import java.util.Timer;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
@@ -7,9 +11,8 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.Canvas;
 
-public abstract class Weapon extends Canvas implements MouseListener, Runnable
+public abstract class Weapon extends Actor
 {
     int bulletSpeed;
     int magSize;
@@ -17,6 +20,9 @@ public abstract class Weapon extends Canvas implements MouseListener, Runnable
     int bulletsLeft;
     int bulletDamage;
     private boolean mouse;
+    private Mouse mouseListener;
+    private PointerInfo mousePos;
+    private Point p;
 
     public Weapon(int bs, int ms, int b, int bd)
     {
@@ -26,24 +32,28 @@ public abstract class Weapon extends Canvas implements MouseListener, Runnable
         bulletsLeft = ms;
         bulletDamage = bd;
         mouse = false;
-        this.addMouseListener(this);
-        new Thread(this).start();
+        setPicture("mayrio.png");
     }
 
     public void update()
     {
-        if(mouse)
+        mouseListener = getMouse();
+        p = MouseInfo.getPointerInfo().getLocation();
+        if(mouseListener.isButtonPressed())
         {
-            this.shoot();
+            this.shoot(p);
         }
 
     }
 
-    public void shoot()
+    public void shoot(Point poi)
     {
+        int x = poi.x;
+        int y = poi.y;
         if(bulletsLeft != 0)
         {
             //spawn # of bullets as stated by the bullets variable and subtract 1 from bulletsLeft
+
             bulletsLeft--;
         }
         else
@@ -78,31 +88,4 @@ public abstract class Weapon extends Canvas implements MouseListener, Runnable
         }
     }
 
-    public void mouseClicked(MouseEvent e)
-    {
-
-    }
-
-    public void mouseEntered(MouseEvent e)
-    {
-
-    }
-
-    public void mouseExited(MouseEvent e)
-    {
-
-    }
-
-    public void run()
-    {
-        try {
-            while (true)
-            {
-                Thread.currentThread().sleep(5);
-                //repaint();
-            }
-        } catch (Exception e)
-        {
-        }
-    }
 }
