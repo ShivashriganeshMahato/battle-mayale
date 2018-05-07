@@ -64,6 +64,11 @@ public class Player extends Actor {
         this.setPosition(this.getX(), y);
     }
 
+    public void move(int dx, int dy) {
+        setX(getX() + dx);
+        setY(getY() + dy);
+    }
+
     public void update() {
         if (canMove) {
             didJustMove = false;

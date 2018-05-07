@@ -33,5 +33,8 @@ public class GameStage extends Stage {
     public void update() {
         if (user.didJustMove())
             game.sendCommand("move " + user.getX() + " " + user.getY());
+        for (Player player : game.getPlayers()) {
+            player.move(-(user.getX() - 400), -(user.getY() - 300));
+        }
     }
 }
