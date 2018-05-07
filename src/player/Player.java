@@ -8,6 +8,8 @@ import java.awt.*;
  * @author Shivashriganesh Mahato
  */
 public class Player extends Actor {
+    private final int Speed = 5;
+
     private String name;
     private int id;
     private int health;
@@ -74,22 +76,22 @@ public class Player extends Actor {
             int gunY = (int) b.getY();
             if (keyListener.isKeyPressed("W")) {
                 //weapon.move(1,"NORTH");
-                move(1, "NORTH");
+                move(Speed, "NORTH");
                 didJustMove = true;
             }
             if (keyListener.isKeyPressed("S")) {
                 // weapon.move(1,"SOUTH");
-                move(1, "SOUTH");
+                move(Speed, "SOUTH");
                 didJustMove = true;
             }
             if (keyListener.isKeyPressed("A")) {
                 //weapon.move(1,"WEST");
-                move(1, "WEST");
+                move(Speed, "WEST");
                 didJustMove = true;
             }
             if (keyListener.isKeyPressed("D")) {
                 //weapon.move(1,"EAST");
-                move(1, "EAST");
+                move(Speed, "EAST");
                 didJustMove = true;
             }
         }

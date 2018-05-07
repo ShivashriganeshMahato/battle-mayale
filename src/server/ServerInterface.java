@@ -44,8 +44,6 @@ public class ServerInterface extends Stage {
         for (int i = 0; i < players.size(); i++) {
             players.get(i).setPosition(50, 50 + i * 50);
         }
-
-//        System.out.println(players);
     }
 
     private void setInGame(List<Player> players) {

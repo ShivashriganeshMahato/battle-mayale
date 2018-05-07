@@ -19,6 +19,7 @@ public class GameStage extends Stage {
         this.userID = userID;
 
         setBackgroundColor(Color.RED);
+        addActor(game.getMap(), 0, 0);
 
         for (Player player : game.getPlayers()) {
             if (player.getId() != userID)

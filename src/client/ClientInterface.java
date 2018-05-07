@@ -21,7 +21,12 @@ public class ClientInterface {
     public ClientInterface(String IP, int port) {
         clientManager = new ClientManager(IP, port, this);
 
-        curStage = new QueueStage();
+        // TODO For testing
+        List<Player> players = new ArrayList<>();
+        players.add(new Player("Ethan", 1, 150, 40));
+        players.add(new Player("Yousuf", 2, 10, 70));
+        Game game = new Game(players);
+        curStage = new GameStage(game, 1);
         application = new Mayflower("Battle Mayale Server", 800, 600, curStage);
     }
 
