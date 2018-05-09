@@ -139,4 +139,8 @@ public class Player extends Actor {
     public Vector2 getAbsPos() {
         return absPos;
     }
+
+    public void setAbsPos(int x, int y) {
+        absPos.set(x, y);
+    }
 }
