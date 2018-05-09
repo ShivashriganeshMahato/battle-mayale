@@ -51,8 +51,8 @@ public class ClientManager extends Client {
             int yNew = Integer.parseInt(command[3]);
             for (Player player : game.getPlayers()) {
                 if (player.getId() == Integer.parseInt(command[1])) {
-                    int dx = player.getAbsX() - xNew;
-                    int dy = player.getAbsY() - yNew;
+                    int dx = xNew - player.getAbsX();
+                    int dy = yNew - player.getAbsY();
                     player.move(dx, dy);
                     player.setAbsPos(xNew, yNew);
                 }
