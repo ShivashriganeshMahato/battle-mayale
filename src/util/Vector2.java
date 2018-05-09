@@ -4,27 +4,27 @@ package util;
  * @author Shivashriganesh Mahato
  */
 public class Vector2 {
-    private double x;
-    private double y;
+    private int x;
+    private int y;
 
-    public Vector2(double x, double y) {
+    public Vector2(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public double getX() {
+    public int getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public double getY() {
+    public int getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(int y) {
         this.y = y;
     }
 
@@ -40,7 +40,17 @@ public class Vector2 {
         return this;
     }
 
+    public void set(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
     public double dot(Vector2 vector) {
         return x * vector.x + y * vector.y;
+    }
+
+    @Override
+    public String toString() {
+        return "X " + getX() + " Y " + getY();
     }
 }

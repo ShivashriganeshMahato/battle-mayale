@@ -3,8 +3,10 @@ package player;
 import mayflower.Actor;
 import mayflower.Keyboard;
 import mayflower.Text;
+import util.Vector2;
 
 import java.awt.*;
+import java.util.ConcurrentModificationException;
 
 /**
  * @author Shivashriganesh Mahato
@@ -21,6 +23,7 @@ public class Player extends Actor {
     private Text tag;
     private boolean canMove;
     private boolean didJustMove;
+    private Vector2 absPos;
 
     public Player(String name, int id, int x, int y, boolean canMove) {
         this.name = name;
@@ -34,6 +37,7 @@ public class Player extends Actor {
         setPicture("src/RAWR.jpg");
         setPosition(x, y);
         tag = new Text(name, Color.WHITE);
+        absPos = new Vector2(x, y);
     }
 
     public Player(String name, int id, int x, int y) {
@@ -76,30 +80,38 @@ public class Player extends Actor {
     public void update() {
         if (canMove) {
             didJustMove = false;
-            keyListener = getKeyboard();
-            mousePos = MouseInfo.getPointerInfo();
-            Point b = mousePos.getLocation();
-            int gunX = (int) b.getX();
-            int gunY = (int) b.getY();
-            if (keyListener.isKeyPressed("W")) {
-                //weapon.move(1,"NORTH");
-                move(1, "NORTH");
-                didJustMove = true;
-            }
-            if (keyListener.isKeyPressed("S")) {
-                // weapon.move(1,"SOUTH");
-                move(1, "SOUTH");
-                didJustMove = true;
-            }
-            if (keyListener.isKeyPressed("A")) {
-                //weapon.move(1,"WEST");
-                move(1, "WEST");
-                didJustMove = true;
-            }
-            if (keyListener.isKeyPressed("D")) {
-                //weapon.move(1,"EAST");
-                move(1, "EAST");
-                didJustMove = true;
+            try {
+                keyListener = getKeyboard();
+                mousePos = MouseInfo.getPointerInfo();
+                Point b = mousePos.getLocation();
+                int gunX = (int) b.getX();
+                int gunY = (int) b.getY();
+                if (keyListener.isKeyPressed("W")) {
+                    //weapon.move(1,"NORTH");
+                    move(1, "NORTH");
+                    absPos.set(getAbsX(), getAbsY() - 1);
+                    didJustMove = true;
+                }
+                if (keyListener.isKeyPressed("S")) {
+                    // weapon.move(1,"SOUTH");
+                    move(1, "SOUTH");
+                    absPos.set(getAbsX(), getAbsY() + 1);
+                    didJustMove = true;
+                }
+                if (keyListener.isKeyPressed("A")) {
+                    //weapon.move(1,"WEST");
+                    move(1, "WEST");
+                    absPos.set(getAbsX() - 1, getAbsY());
+                    didJustMove = true;
+                }
+                if (keyListener.isKeyPressed("D")) {
+                    //weapon.move(1,"EAST");
+                    move(1, "EAST");
+                    absPos.set(getAbsX() + 1, getAbsY());
+                    didJustMove = true;
+                }
+            } catch (ConcurrentModificationException e) {
+                System.out.println("Mayflower is bad");
             }
         }
     }
@@ -114,5 +126,17 @@ public class Player extends Actor {
 
     public Text getTag() {
         return tag;
+    }
+
+    public int getAbsX() {
+        return absPos.getX();
+    }
+
+    public int getAbsY() {
+        return absPos.getY();
+    }
+
+    public Vector2 getAbsPos() {
+        return absPos;
     }
 }

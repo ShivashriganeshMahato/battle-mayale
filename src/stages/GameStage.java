@@ -2,7 +2,9 @@ package stages;
 
 import game.Game;
 import mayflower.Stage;
+import mayflower.Text;
 import player.Player;
+import util.Vector2;
 
 import java.awt.*;
 
@@ -21,10 +23,11 @@ public class GameStage extends Stage {
         setBackgroundColor(Color.RED);
 
         for (Player player : game.getPlayers()) {
-            if (player.getId() != userID)
+            if (player.getId() != userID) {
                 player.setCanMove(false);
-            else
+            } else {
                 user = player;
+            }
             addActor(player, player.getX(), player.getY());
             addActor(player.getTag(), player.getX(), player.getY() - 10);
         }
@@ -34,10 +37,13 @@ public class GameStage extends Stage {
     @Override
     public void update() {
         if (user.didJustMove())
-            game.sendCommand("move " + user.getX() + " " + user.getY());
+            game.sendCommand("move " + user.getAbsX() + " " + user.getAbsY());
+        int dx = -(user.getX() - 400);
+        int dy = -(user.getY() - 300);
         for (Player player : game.getPlayers()) {
-            player.move(-(user.getX() - 400), -(user.getY() - 300));
+            player.move(dx, dy);
             player.getTag().setPosition(player.getX() - 30, player.getY() - 65);
         }
+        System.out.println(user.getAbsPos());
     }
 }
