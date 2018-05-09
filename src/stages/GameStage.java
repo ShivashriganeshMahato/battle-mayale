@@ -26,7 +26,9 @@ public class GameStage extends Stage {
             else
                 user = player;
             addActor(player, player.getX(), player.getY());
+            addActor(player.getTag(), player.getX(), player.getY() - 10);
         }
+        addActor(user, 5, 5);
     }
 
     @Override
@@ -35,6 +37,7 @@ public class GameStage extends Stage {
             game.sendCommand("move " + user.getX() + " " + user.getY());
         for (Player player : game.getPlayers()) {
             player.move(-(user.getX() - 400), -(user.getY() - 300));
+            player.getTag().setPosition(player.getX() - 30, player.getY() - 65);
         }
     }
 }

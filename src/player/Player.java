@@ -2,6 +2,8 @@ package player;
 
 import mayflower.Actor;
 import mayflower.Keyboard;
+import mayflower.Text;
+
 import java.awt.*;
 
 /**
@@ -16,6 +18,7 @@ public class Player extends Actor {
     private boolean isAlive;
     private Keyboard keyListener;
     private PointerInfo mousePos;
+    private Text tag;
     private boolean canMove;
     private boolean didJustMove;
 
@@ -30,6 +33,7 @@ public class Player extends Actor {
         ammo = 0;
         setPicture("src/RAWR.jpg");
         setPosition(x, y);
+        tag = new Text(name, Color.WHITE);
     }
 
     public Player(String name, int id, int x, int y) {
@@ -106,5 +110,9 @@ public class Player extends Actor {
 
     public boolean didJustMove() {
         return didJustMove;
+    }
+
+    public Text getTag() {
+        return tag;
     }
 }
