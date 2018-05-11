@@ -4,6 +4,9 @@ import mayflower.Actor;
 import mayflower.Keyboard;
 import mayflower.Text;
 import util.Vector2;
+import weapons.Pistol;
+import weapons.SMG;
+import weapons.Weapon;
 
 import java.awt.*;
 import java.util.ConcurrentModificationException;
@@ -24,6 +27,7 @@ public class Player extends Actor {
     private boolean canMove;
     private boolean didJustMove;
     private Vector2 absPos;
+    private Weapon weapon;
 
     public Player(String name, int id, int x, int y, boolean canMove) {
         this.name = name;
@@ -38,6 +42,7 @@ public class Player extends Actor {
         setPosition(x, y);
         tag = new Text(name, Color.WHITE);
         absPos = new Vector2(x, y);
+        weapon = new Pistol();
     }
 
     public Player(String name, int id, int x, int y) {
@@ -142,5 +147,9 @@ public class Player extends Actor {
 
     public void setAbsPos(int x, int y) {
         absPos.set(x, y);
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
     }
 }

@@ -5,6 +5,7 @@ import mayflower.Stage;
 import mayflower.Text;
 import player.Player;
 import util.Vector2;
+import weapons.SMG;
 
 import java.awt.*;
 
@@ -20,7 +21,7 @@ public class GameStage extends Stage {
         this.game = game;
         this.userID = userID;
 
-        setBackgroundColor(Color.RED);
+        setBackgroundColor(Color.GREEN);
 
         for (Player player : game.getPlayers()) {
             if (player.getId() != userID) {
@@ -30,6 +31,7 @@ public class GameStage extends Stage {
             }
             addActor(player, player.getX(), player.getY());
             addActor(player.getTag(), player.getX(), player.getY() - 10);
+            addActor(player.getWeapon(), player.getX(), player.getY());
         }
         addActor(user, 5, 5);
     }
@@ -43,7 +45,7 @@ public class GameStage extends Stage {
         for (Player player : game.getPlayers()) {
             player.move(dx, dy);
             player.getTag().setPosition(player.getX() - 30, player.getY() - 65);
+            player.getWeapon().setPosition(player.getX(), player.getY());
         }
-        System.out.println(user.getAbsPos());
     }
 }

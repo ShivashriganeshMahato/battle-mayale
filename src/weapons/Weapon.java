@@ -2,9 +2,10 @@ package weapons;
 
 import mayflower.Actor;
 import mayflower.Mouse;
+import mayflower.Timer;
+import util.Vector2;
 
 import java.awt.*;
-import java.util.Timer;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseListener;
@@ -22,7 +23,8 @@ public abstract class Weapon extends Actor
     private boolean mouse;
     private Mouse mouseListener;
     private PointerInfo mousePos;
-    private Point p;
+    private Vector2 p;
+    private Timer timer;
 
     public Weapon(int bs, int ms, int b, int bd)
     {
@@ -32,44 +34,37 @@ public abstract class Weapon extends Actor
         bulletsLeft = ms;
         bulletDamage = bd;
         mouse = false;
-        setPicture("mayrio.png");
+        timer = new Timer();
+        setPicture("src/mayrio.png");
     }
 
     public void update()
     {
+        System.out.println(bulletsLeft);
         mouseListener = getMouse();
-        p = MouseInfo.getPointerInfo().getLocation();
+        p = new Vector2(mouseListener.getX(), mouseListener.getY());
         if(mouseListener.isButtonPressed())
         {
+            System.out.println(p);
             this.shoot(p);
         }
-
+        if (bulletsLeft == 0) {
+            if (timer.getTimePassed() >= 3000)
+                bulletsLeft = magSize;
+            else
+                timer.reset();
+        }
     }
 
-    public void shoot(Point poi)
+    public void shoot(Vector2 poi)
     {
-        int x = poi.x;
-        int y = poi.y;
+        int x = poi.getX();
+        int y = poi.getY();
         if(bulletsLeft != 0)
         {
             //spawn # of bullets as stated by the bullets variable and subtract 1 from bulletsLeft
-
             bulletsLeft--;
         }
-        else
-        {
-            this.reload();
-        }
-    }
-
-    public boolean reload()
-    {
-        Timer timer = new Timer();
-        while(!(timer.equals(3000)))
-        {
-        }
-        bulletsLeft = magSize;
-        return true;
     }
 
     public void mousePressed(MouseEvent e)
