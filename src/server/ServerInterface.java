@@ -33,7 +33,7 @@ public class ServerInterface extends Stage {
         if (players.size() >= 3 && manager.getGame() == null) {
             button.enable();
         } else {
-            button.disable();
+//            button.disable();
         }
 
         if (button.isClicked() && !button.isDisabled()) {
