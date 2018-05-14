@@ -40,6 +40,11 @@ public class GameStage extends Stage {
     public void update() {
         if (user.didJustMove())
             game.sendCommand("move " + user.getAbsX() + " " + user.getAbsY());
+        if (user.getWeapon().getMsgToSend() != null) {
+            System.out.println(user.getWeapon().getMsgToSend());
+            game.sendCommand(user.getWeapon().getMsgToSend());
+            user.getWeapon().clearMsg();
+        }
         int dx = -(user.getX() - 400);
         int dy = -(user.getY() - 300);
         for (Player player : game.getPlayers()) {

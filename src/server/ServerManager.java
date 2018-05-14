@@ -44,6 +44,8 @@ public class ServerManager extends Server {
                     send(player.getId(), "move " + i + " " + xNew + " " + yNew);
                 }
             }
+        } else if (command[0].equals("shoot")) {
+            System.out.println("SHOOTING");
         }
     }
 

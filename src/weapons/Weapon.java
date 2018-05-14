@@ -5,13 +5,8 @@ import mayflower.Mouse;
 import mayflower.Timer;
 import util.Vector2;
 
-import java.awt.*;
-import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseListener;
 import java.awt.event.MouseEvent;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public abstract class Weapon extends Actor
 {
@@ -22,9 +17,9 @@ public abstract class Weapon extends Actor
     int bulletDamage;
     private boolean mouse;
     private Mouse mouseListener;
-    private PointerInfo mousePos;
-    private Vector2 p;
+    private Vector2 mousePos;
     private Timer timer;
+    private String msgToSend;
 
     public Weapon(int bs, int ms, int b, int bd)
     {
@@ -36,23 +31,20 @@ public abstract class Weapon extends Actor
         mouse = false;
         timer = new Timer();
         setPicture("src/mayrio.png");
+        msgToSend = null;
     }
 
     public void update()
     {
-        System.out.println(bulletsLeft);
         mouseListener = getMouse();
-        p = new Vector2(mouseListener.getX(), mouseListener.getY());
+        mousePos = new Vector2(mouseListener.getX(), mouseListener.getY());
         if(mouseListener.isButtonPressed())
         {
-            System.out.println(p);
-            this.shoot(p);
+            System.out.println(mousePos);
+            this.shoot(mousePos);
         }
-        if (bulletsLeft == 0) {
-            if (timer.getTimePassed() >= 3000)
-                bulletsLeft = magSize;
-            else
-                timer.reset();
+        if (bulletsLeft == 0 && timer.getTimePassed() >= 3000) {
+            bulletsLeft = magSize;
         }
     }
 
@@ -63,7 +55,10 @@ public abstract class Weapon extends Actor
         if(bulletsLeft != 0)
         {
             //spawn # of bullets as stated by the bullets variable and subtract 1 from bulletsLeft
+            msgToSend = "shoot " + getX() + " " + getY();
             bulletsLeft--;
+            if (bulletsLeft == 0)
+                timer.reset();
         }
     }
 
@@ -83,4 +78,11 @@ public abstract class Weapon extends Actor
         }
     }
 
+    public String getMsgToSend() {
+        return msgToSend;
+    }
+
+    public void clearMsg() {
+        msgToSend = null;
+    }
 }

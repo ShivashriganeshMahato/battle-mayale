@@ -22,6 +22,6 @@ public class ClientRunner {
 //        System.out.println(IP);
 //
 //        new ClientInterface(IP, 1234);
-        new ClientInterface("10.11.1.57", 1234);
+        new ClientInterface("127.0.0.1", 1234);
     }
 }
