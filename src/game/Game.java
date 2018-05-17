@@ -54,4 +54,8 @@ public class Game {
     public void addBullet(Bullet bullet) {
         bullets.add(bullet);
     }
+
+    public List<Bullet> getBullets() {
+        return bullets;
+    }
 }

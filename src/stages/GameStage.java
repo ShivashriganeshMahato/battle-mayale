@@ -1,10 +1,14 @@
 package stages;
 
 import game.Game;
+import game.Map;
+import mayflower.Actor;
+import mayflower.Picture;
 import mayflower.Stage;
 import mayflower.Text;
 import player.Player;
 import util.Vector2;
+import weapons.Bullet;
 import weapons.SMG;
 
 import java.awt.*;
@@ -16,6 +20,8 @@ public class GameStage extends Stage {
     private int userID;
     private Game game;
     private Player user;
+    private Map map;
+    private int bulletCount;
 
     public GameStage(Game game, int userID) {
         this.game = game;
@@ -34,10 +40,19 @@ public class GameStage extends Stage {
             addActor(player.getWeapon(), player.getX(), player.getY());
         }
         addActor(user, 5, 5);
+
+        map = new Map();
+        addActor(map, 0, 0);
+
+        bulletCount = 0;
     }
 
     @Override
     public void update() {
+//        if (bulletCount < game.getBullets().size()) {
+//            Bullet newBullet = game.getBullets().remove(game.getBullets().size() - 1);
+//            addActor(newBullet, newBullet.getX(), newBullet.getY());
+//        }
         if (user.didJustMove())
             game.sendCommand("move " + user.getAbsX() + " " + user.getAbsY());
         if (user.getWeapon().getMsgToSend() != null) {
@@ -52,5 +67,9 @@ public class GameStage extends Stage {
             player.getTag().setPosition(player.getX() - 30, player.getY() - 65);
             player.getWeapon().setPosition(player.getX(), player.getY());
         }
+//        for (Bullet bullet : game.getBullets()) {
+//            bullet.move(dx, dy);
+//        }
+//        map.move(dx, dy);
     }
 }

@@ -37,15 +37,13 @@ public class ServerManager extends Server {
         } else if (command[0].equals("move")) {
             int xNew = Integer.parseInt(command[1]);
             int yNew = Integer.parseInt(command[2]);
-            for (Player player : game.getPlayers()) {
-                if (player.getId() == i) {
-                    player.setPosition(xNew, yNew);
-                } else {
-                    send(player.getId(), "move " + i + " " + xNew + " " + yNew);
-                }
-            }
+
         } else if (command[0].equals("shoot")) {
-            System.out.println("SHOOTING");
+            for (Player player : game.getPlayers()) {
+                int x = Integer.parseInt(command[1]);
+                int y = Integer.parseInt(command[2]);
+                send(player.getId(), "shoot " + x + " " + y);
+            }
         }
     }
 

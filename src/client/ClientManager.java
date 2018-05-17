@@ -4,6 +4,7 @@ import game.Game;
 import mayflower.net.Client;
 import player.Player;
 import stages.GameStage;
+import weapons.Bullet;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -57,6 +58,10 @@ public class ClientManager extends Client {
                     player.setAbsPos(xNew, yNew);
                 }
             }
+        } else if (command[0].equals("shoot")) {
+            int x = Integer.parseInt(command[1]);
+            int y = Integer.parseInt(command[2]);
+            game.addBullet(new Bullet(1, x, y));
         }
     }
 
@@ -66,19 +71,19 @@ public class ClientManager extends Client {
 
     @Override
     public void onConnect() {
-//        String name;
-//
-//        do {
-//            String output = JOptionPane.showInputDialog("What is your name?");
-//            if (output.contains(" ") || output.length() == 0) {
-//                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
-//                continue;
-//            }
-//            name = output;
-//            break;
-//        } while (true);
-//
-//        send("name " + name);
-        send("name Joe");
+        String name;
+
+        do {
+            String output = JOptionPane.showInputDialog("What is your name?");
+            if (output.contains(" ") || output.length() == 0) {
+                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
+                continue;
+            }
+            name = output;
+            break;
+        } while (true);
+
+        send("name " + name);
+//        send("name Joe");
     }
 }
