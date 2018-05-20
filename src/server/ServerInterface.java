@@ -17,6 +17,7 @@ public class ServerInterface extends Stage {
     private ServerManager manager;
     private Button playBtn;
     private Button endBtn;
+    private Text aliveCount;
 
     public ServerInterface(int port) {
         setBackgroundColor(Color.WHITE);
@@ -24,9 +25,11 @@ public class ServerInterface extends Stage {
         manager = new ServerManager(port, this);
         playBtn = new Button("PLAY");
         endBtn = new Button("STOP");
+        aliveCount = new Text("");
         addActor(playBtn, 600, 20);
         addActor(endBtn, 600, 50);
         addActor(new Text("Players:"), 50, 10);
+        addActor(aliveCount, 600, 80);
 
         new Mayflower("Battle Mayale Server", 800, 800, this);
     }
@@ -57,7 +60,10 @@ public class ServerInterface extends Stage {
             players.get(i).setPosition(50, 50 + i * 50);
         }
 
-//        System.out.println(players);
+        if (manager.getGame() == null)
+            aliveCount.setText("");
+        else
+            aliveCount.setText("Alive: " + manager.getGame().getAlive().size());
     }
 
     private void setInGame(List<Player> players, boolean inGame) {

@@ -71,12 +71,18 @@ public class ServerManager extends Server {
     public void onExit(int i) {
         System.out.println(i + " disconnected.");
         Player toRemove = null;
-        for (Player player : playerQueue) {
-            if (player.getId() == i)
-                toRemove = player;
-        }
-        if (game != null)
+        if (game == null) {
+            for (Player player : playerQueue) {
+                if (player.getId() == i)
+                    toRemove = player;
+            }
+        } else {
+            for (Player player : game.getPlayers()) {
+                if (player.getId() == i)
+                    toRemove = player;
+            }
             game.kill(toRemove);
+        }
         serverInterface.removePlayer(toRemove);
         playerQueue.remove(toRemove);
 

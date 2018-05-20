@@ -21,6 +21,8 @@ public class Game {
 
     public Game(List<Player> players, ClientManager client) {
         this.players = players;
+        alive = new ArrayList<>();
+        alive.addAll(players);
         this.client = client;
         bullets = new ArrayList<>();
     }
@@ -45,6 +47,10 @@ public class Game {
 
     public List<Player> getPlayers() {
         return players;
+    }
+
+    public List<Player> getAlive() {
+        return alive;
     }
 
     public void end() {
