@@ -94,25 +94,25 @@ public class Player extends Actor {
                 if (keyListener.isKeyPressed("W")) {
                     //weapon.move(1,"NORTH");
                     move(1, "NORTH");
-                    absPos.set(getAbsX(), getAbsY() - 1);
+                    setAbsPos(getAbsX(), getAbsY() - 1);
                     didJustMove = true;
                 }
                 if (keyListener.isKeyPressed("S")) {
                     // weapon.move(1,"SOUTH");
                     move(1, "SOUTH");
-                    absPos.set(getAbsX(), getAbsY() + 1);
+                    setAbsPos(getAbsX(), getAbsY() + 1);
                     didJustMove = true;
                 }
                 if (keyListener.isKeyPressed("A")) {
                     //weapon.move(1,"WEST");
                     move(1, "WEST");
-                    absPos.set(getAbsX() - 1, getAbsY());
+                    setAbsPos(getAbsX() - 1, getAbsY());
                     didJustMove = true;
                 }
                 if (keyListener.isKeyPressed("D")) {
                     //weapon.move(1,"EAST");
                     move(1, "EAST");
-                    absPos.set(getAbsX() + 1, getAbsY());
+                    setAbsPos(getAbsX() + 1, getAbsY());
                     didJustMove = true;
                 }
             } catch (ConcurrentModificationException e) {
@@ -147,6 +147,7 @@ public class Player extends Actor {
 
     public void setAbsPos(int x, int y) {
         absPos.set(x, y);
+        weapon.setAbsPos(x, y);
     }
 
     public Weapon getWeapon() {

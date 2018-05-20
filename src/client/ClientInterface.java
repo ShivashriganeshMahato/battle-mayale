@@ -21,6 +21,7 @@ public class ClientInterface {
     public ClientInterface(String IP, int port) {
         clientManager = new ClientManager(IP, port, this);
 
+        // Launch Client GUI
         curStage = new QueueStage();
         application = new Mayflower("Battle Mayale Server", 800, 600, curStage);
     }

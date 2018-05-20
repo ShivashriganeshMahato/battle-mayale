@@ -4,6 +4,7 @@ import javax.swing.*;
 
 public class ClientRunner {
     public static void main(String[] args) {
+        // Ask for IP to connect to
 //        boolean isIPValid = false;
 //        String IP = null;
 //

@@ -12,6 +12,10 @@ public class Vector2 {
         this.y = y;
     }
 
+    public int getMag() {
+        return (int) Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+
     public int getX() {
         return x;
     }

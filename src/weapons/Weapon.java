@@ -20,6 +20,7 @@ public abstract class Weapon extends Actor
     private Vector2 mousePos;
     private Timer timer;
     private String msgToSend;
+    private Vector2 absPos;
 
     public Weapon(int bs, int ms, int b, int bd)
     {
@@ -32,6 +33,7 @@ public abstract class Weapon extends Actor
         timer = new Timer();
         setPicture("src/mayrio.png");
         msgToSend = null;
+        absPos = new Vector2(0, 0);
     }
 
     public void update()
@@ -40,7 +42,6 @@ public abstract class Weapon extends Actor
         mousePos = new Vector2(mouseListener.getX(), mouseListener.getY());
         if(mouseListener.isButtonPressed())
         {
-            System.out.println(mousePos);
             this.shoot(mousePos);
         }
         if (bulletsLeft == 0 && timer.getTimePassed() >= 3000) {
@@ -50,16 +51,27 @@ public abstract class Weapon extends Actor
 
     public void shoot(Vector2 poi)
     {
-        int x = poi.getX();
-        int y = poi.getY();
+        Vector2 vel = getVel(new Vector2(400, 300), poi);
+        int vx = vel.getX();
+        int vy = vel.getY();
         if(bulletsLeft != 0)
         {
             //spawn # of bullets as stated by the bullets variable and subtract 1 from bulletsLeft
-            msgToSend = "shoot " + getX() + " " + getY();
+            System.out.println(absPos);
+            msgToSend = "shoot " + absPos.getX() + " " + absPos.getY() + " " + vx + " " + vy;
             bulletsLeft--;
             if (bulletsLeft == 0)
                 timer.reset();
         }
+    }
+
+    public Vector2 getVel(Vector2 from, Vector2 to) {
+//        Vector2 vel = new Vector2(0, 0);
+//        Vector2 disp = to.sub(from);
+//        vel.setX(disp.getX() / disp.getMag());
+//        vel.setY(disp.getY() / disp.getMag());
+//        return vel;
+        return new Vector2(1, 1);
     }
 
     public void mousePressed(MouseEvent e)
@@ -84,5 +96,13 @@ public abstract class Weapon extends Actor
 
     public void clearMsg() {
         msgToSend = null;
+    }
+
+    public void setAbsPos(int x, int y) {
+        absPos.set(x, y);
+    }
+
+    public Vector2 getAbsPos() {
+        return absPos;
     }
 }
