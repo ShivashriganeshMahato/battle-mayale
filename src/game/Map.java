@@ -15,15 +15,15 @@ public class Map extends Actor {
 
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.setPosition(x, this.getY());
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.setPosition(this.getX(), y);
     }
 
-    public void move(int dx, int dy) {
+    public void move(double dx, double dy) {
         setX(getX() + dx);
         setY(getY() + dy);
     }

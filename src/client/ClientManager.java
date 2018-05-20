@@ -37,10 +37,10 @@ public class ClientManager extends Client {
                         newPlayer.setId(Integer.parseInt(command[i]));
                         break;
                     case 0:
-                        newPlayer.setX(Integer.parseInt(command[i]));
+                        newPlayer.setX(Double.parseDouble(command[i]));
                         break;
                     case 1:
-                        newPlayer.setY(Integer.parseInt(command[i]));
+                        newPlayer.setY(Double.parseDouble(command[i]));
                         players.add(newPlayer);
                         break;
                 }
@@ -51,22 +51,22 @@ public class ClientManager extends Client {
             clientInterface.setStage(stage);
         } else if (command[0].equals("move")) {
             // When a player from some Client is moved, local player must be moved accordingly
-            int xNew = Integer.parseInt(command[2]);
-            int yNew = Integer.parseInt(command[3]);
+            double xNew = Double.parseDouble(command[2]);
+            double yNew = Double.parseDouble(command[3]);
             for (Player player : game.getPlayers()) {
                 if (player.getId() == Integer.parseInt(command[1])) {
-                    int dx = xNew - player.getAbsX();
-                    int dy = yNew - player.getAbsY();
+                    double dx = xNew - player.getAbsX();
+                    double dy = yNew - player.getAbsY();
                     player.move(dx, dy);
                     player.setAbsPos(xNew, yNew);
                 }
             }
         } else if (command[0].equals("shoot")) {
             // Generate bullet with absolute position given by command
-            int x = Integer.parseInt(command[1]);
-            int y = Integer.parseInt(command[2]);
-            int vx = Integer.parseInt(command[3]);
-            int vy = Integer.parseInt(command[4]);
+            double x = Double.parseDouble(command[1]);
+            double y = Double.parseDouble(command[2]);
+            double vx = Double.parseDouble(command[3]);
+            double vy = Double.parseDouble(command[4]);
             game.addBullet(new Bullet(x, y, vx, vy));
         }
     }

@@ -8,7 +8,7 @@ public class Bullet extends Actor
     private Vector2 velocity;
     private Vector2 absPos;
 
-    public Bullet(int x, int y, int vx, int vy)
+    public Bullet(double x, double y, double vx, double vy)
     {
         velocity = new Vector2(vx, vy);
         absPos = new Vector2(x, y);
@@ -21,15 +21,15 @@ public class Bullet extends Actor
         absPos.add(velocity);
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.setPosition(x, this.getY());
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.setPosition(this.getX(), y);
     }
 
-    public void move(int dx, int dy) {
+    public void move(double dx, double dy) {
         setX(getX() + dx);
         setY(getY() + dy);
     }

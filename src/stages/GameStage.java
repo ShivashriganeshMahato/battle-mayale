@@ -12,6 +12,7 @@ import weapons.Bullet;
 import weapons.SMG;
 
 import java.awt.*;
+import java.util.ConcurrentModificationException;
 
 /**
  * @author Shivashriganesh Mahato
@@ -51,43 +52,33 @@ public class GameStage extends Stage {
     public void update() {
         if (user.didJustMove())
             game.sendCommand("move " + user.getAbsX() + " " + user.getAbsY());
-        int dAx = -(user.getAbsX() - 400);
-        int dAy = -(user.getAbsY() - 300);
-        System.out.println(game.getBullets().size());
+        double dAx = -(user.getAbsX() - 400);
+        double dAy = -(user.getAbsY() - 300);
         if (bulletCount < game.getBullets().size()) {
             Bullet newBullet = game.getBullets().get(game.getBullets().size() - 1);
-            addActor(newBullet, newBullet.getAbsPos().getX() + dAx, newBullet.getAbsPos().getY() + dAy);
+            addActor(newBullet, (int) (newBullet.getAbsPos().getX() + dAx), (int) (newBullet.getAbsPos().getY() + dAy));
         }
         if (user.getWeapon().getMsgToSend() != null) {
             System.out.println(user.getWeapon().getMsgToSend());
             game.sendCommand(user.getWeapon().getMsgToSend());
             user.getWeapon().clearMsg();
         }
-        for (Player player : game.getPlayers()) {
-            int ax = player.getAbsX();
-            int ay = player.getAbsY();
-            player.setPosition(ax + dAx, ay + dAy);
-            player.getTag().setPosition(ax + dAx - 30, ay + dAy - 65);
-            player.getWeapon().setPosition(ax + dAx, ay + dAy);
+        try {
+            for (Player player : game.getPlayers()) {
+                double ax = player.getAbsX();
+                double ay = player.getAbsY();
+                player.setPosition(ax + dAx, ay + dAy);
+                player.getTag().setPosition(ax + dAx - 30, ay + dAy - 65);
+                player.getWeapon().setPosition(ax + dAx, ay + dAy);
+            }
+            for (Bullet bullet : game.getBullets()) {
+                double ax = bullet.getAbsPos().getX();
+                double ay = bullet.getAbsPos().getY();
+                bullet.setPosition(ax + dAx, ay + dAy);
+            }
+            map.setPosition(dAx, dAy);
+        } catch (ConcurrentModificationException e) {
+            System.out.println("Java is bad");
         }
-//        System.out.println(game.getBullets().size());
-        for (Bullet bullet : game.getBullets()) {
-            int ax = bullet.getAbsPos().getX();
-            int ay = bullet.getAbsPos().getY();
-            System.out.println(ax);
-            bullet.setPosition(ax + dAx, ay + dAy);
-        }
-        map.setPosition(dAx, dAy);
-//        int dx = -(user.getX() - 400);
-//        int dy = -(user.getY() - 300);
-//        for (Player player : game.getPlayers()) {
-//            player.move(dx, dy);
-//            player.getTag().setPosition(player.getX() - 30, player.getY() - 65);
-//            player.getWeapon().setPosition(player.getX(), player.getY());
-//        }
-//        map.move(dx, dy);
-//        for (Bullet bullet : game.getBullets()) {
-//            bullet.move(dx, dy);
-//        }
     }
 }

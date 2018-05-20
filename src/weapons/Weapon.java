@@ -52,12 +52,11 @@ public abstract class Weapon extends Actor
     public void shoot(Vector2 poi)
     {
         Vector2 vel = getVel(new Vector2(400, 300), poi);
-        int vx = vel.getX();
-        int vy = vel.getY();
+        double vx = vel.getX();
+        double vy = vel.getY();
         if(bulletsLeft != 0)
         {
             //spawn # of bullets as stated by the bullets variable and subtract 1 from bulletsLeft
-            System.out.println(absPos);
             msgToSend = "shoot " + absPos.getX() + " " + absPos.getY() + " " + vx + " " + vy;
             bulletsLeft--;
             if (bulletsLeft == 0)
@@ -66,12 +65,11 @@ public abstract class Weapon extends Actor
     }
 
     public Vector2 getVel(Vector2 from, Vector2 to) {
-//        Vector2 vel = new Vector2(0, 0);
-//        Vector2 disp = to.sub(from);
-//        vel.setX(disp.getX() / disp.getMag());
-//        vel.setY(disp.getY() / disp.getMag());
-//        return vel;
-        return new Vector2(1, 1);
+        Vector2 vel = new Vector2(0, 0);
+        Vector2 disp = to.sub(from);
+        vel.setX(bulletSpeed * (disp.getX() / disp.getMag()));
+        vel.setY(bulletSpeed * (disp.getY() / disp.getMag()));
+        return vel;
     }
 
     public void mousePressed(MouseEvent e)
@@ -98,7 +96,7 @@ public abstract class Weapon extends Actor
         msgToSend = null;
     }
 
-    public void setAbsPos(int x, int y) {
+    public void setAbsPos(double x, double y) {
         absPos.set(x, y);
     }
 
