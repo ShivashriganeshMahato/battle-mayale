@@ -4,6 +4,9 @@ import mayflower.Actor;
 import mayflower.Keyboard;
 import mayflower.Text;
 import util.Vector2;
+import weapons.Pistol;
+import weapons.SMG;
+import weapons.Weapon;
 
 import java.awt.*;
 import java.util.ConcurrentModificationException;
@@ -24,8 +27,9 @@ public class Player extends Actor {
     private boolean canMove;
     private boolean didJustMove;
     private Vector2 absPos;
+    private Weapon weapon;
 
-    public Player(String name, int id, int x, int y, boolean canMove) {
+    public Player(String name, int id, double x, double y, boolean canMove) {
         this.name = name;
         this.id = id;
         this.canMove = canMove;
@@ -38,9 +42,10 @@ public class Player extends Actor {
         setPosition(x, y);
         tag = new Text(name, Color.WHITE);
         absPos = new Vector2(x, y);
+        weapon = new Pistol();
     }
 
-    public Player(String name, int id, int x, int y) {
+    public Player(String name, int id, double x, double y) {
         this(name, id, x, y, true);
     }
 
@@ -64,15 +69,15 @@ public class Player extends Actor {
         this.id = id;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.setPosition(x, this.getY());
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.setPosition(this.getX(), y);
     }
 
-    public void move(int dx, int dy) {
+    public void move(double dx, double dy) {
         setX(getX() + dx);
         setY(getY() + dy);
     }
@@ -84,30 +89,30 @@ public class Player extends Actor {
                 keyListener = getKeyboard();
                 mousePos = MouseInfo.getPointerInfo();
                 Point b = mousePos.getLocation();
-                int gunX = (int) b.getX();
-                int gunY = (int) b.getY();
+                double gunX = b.getX();
+                double gunY = b.getY();
                 if (keyListener.isKeyPressed("W")) {
                     //weapon.move(1,"NORTH");
                     move(1, "NORTH");
-                    absPos.set(getAbsX(), getAbsY() - 1);
+                    setAbsPos(getAbsX(), getAbsY() - 1);
                     didJustMove = true;
                 }
                 if (keyListener.isKeyPressed("S")) {
                     // weapon.move(1,"SOUTH");
                     move(1, "SOUTH");
-                    absPos.set(getAbsX(), getAbsY() + 1);
+                    setAbsPos(getAbsX(), getAbsY() + 1);
                     didJustMove = true;
                 }
                 if (keyListener.isKeyPressed("A")) {
                     //weapon.move(1,"WEST");
                     move(1, "WEST");
-                    absPos.set(getAbsX() - 1, getAbsY());
+                    setAbsPos(getAbsX() - 1, getAbsY());
                     didJustMove = true;
                 }
                 if (keyListener.isKeyPressed("D")) {
                     //weapon.move(1,"EAST");
                     move(1, "EAST");
-                    absPos.set(getAbsX() + 1, getAbsY());
+                    setAbsPos(getAbsX() + 1, getAbsY());
                     didJustMove = true;
                 }
             } catch (ConcurrentModificationException e) {
@@ -128,11 +133,11 @@ public class Player extends Actor {
         return tag;
     }
 
-    public int getAbsX() {
+    public double getAbsX() {
         return absPos.getX();
     }
 
-    public int getAbsY() {
+    public double getAbsY() {
         return absPos.getY();
     }
 
@@ -140,7 +145,12 @@ public class Player extends Actor {
         return absPos;
     }
 
-    public void setAbsPos(int x, int y) {
+    public void setAbsPos(double x, double y) {
         absPos.set(x, y);
+        weapon.setAbsPos(x, y);
+    }
+
+    public Weapon getWeapon() {
+        return weapon;
     }
 }
