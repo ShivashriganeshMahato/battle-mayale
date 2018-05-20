@@ -38,7 +38,7 @@ public class Player extends Actor {
         isAlive = true;
         fireSpeed = 0;
         ammo = 0;
-        setPicture("src/RAWR.jpg");
+        setPicture("images/RAWR.jpg");
         setPosition(x, y);
         tag = new Text(name, Color.WHITE);
         absPos = new Vector2(x, y);

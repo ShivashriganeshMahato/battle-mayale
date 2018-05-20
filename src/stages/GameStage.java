@@ -21,7 +21,6 @@ public class GameStage extends Stage {
     private int userID;
     private Game game;
     private Player user;
-    private Map map;
     private int bulletCount;
 
     public GameStage(Game game, int userID) {
@@ -29,6 +28,7 @@ public class GameStage extends Stage {
         this.userID = userID;
 
         setBackgroundColor(Color.GREEN);
+        addActor(game.getMap(), 0, 0);
 
         for (Player player : game.getPlayers()) {
             if (player.getId() != userID) {
@@ -41,9 +41,6 @@ public class GameStage extends Stage {
             addActor(player.getWeapon(), player.getX(), player.getY());
         }
         addActor(user, 5, 5);
-
-        map = new Map();
-        addActor(map, 0, 0);
 
         bulletCount = 0;
     }
@@ -76,7 +73,7 @@ public class GameStage extends Stage {
                 double ay = bullet.getAbsPos().getY();
                 bullet.setPosition(ax + dAx, ay + dAy);
             }
-            map.setPosition(dAx, dAy);
+            game.getMap().setPosition(game.getMap().getAX() + dAx, game.getMap().getAY() + dAy);
         } catch (ConcurrentModificationException e) {
             System.out.println("Java is bad");
         }

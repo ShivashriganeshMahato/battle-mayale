@@ -1,18 +1,30 @@
 package game;
 
 import mayflower.Actor;
+import util.Vector2;
 
 /**
  * @author Shivashriganesh Mahato
  */
 public class Map extends Actor {
-    public Map() {
-        setPicture("src/download.jpg");
+    private Vector2 absPos;
+
+    public Map(double x, double y, double w, double h) {
+        setPicture("images/gudmap_small.jpg");
+        absPos = new Vector2(x, y);
     }
 
     @Override
     public void update() {
 
+    }
+
+    public double getAX() {
+        return absPos.getX();
+    }
+
+    public double getAY() {
+        return absPos.getY();
     }
 
     public void setX(double x) {

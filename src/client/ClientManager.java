@@ -4,6 +4,7 @@ import game.Game;
 import mayflower.net.Client;
 import player.Player;
 import stages.GameStage;
+import stages.LoadStage;
 import weapons.Bullet;
 
 import javax.swing.*;
@@ -47,8 +48,8 @@ public class ClientManager extends Client {
             }
 
             game = new Game(players, this);
-            GameStage stage = new GameStage(game, Integer.parseInt(command[1]));
-            clientInterface.setStage(stage);
+            LoadStage lStage = new LoadStage(game, Integer.parseInt(command[1]));
+            clientInterface.setStage(lStage);
         } else if (command[0].equals("move")) {
             // When a player from some Client is moved, local player must be moved accordingly
             double xNew = Double.parseDouble(command[2]);

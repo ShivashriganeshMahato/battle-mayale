@@ -31,7 +31,7 @@ public abstract class Weapon extends Actor
         bulletDamage = bd;
         mouse = false;
         timer = new Timer();
-        setPicture("src/mayrio.png");
+        setPicture("images/mayrio.png");
         msgToSend = null;
         absPos = new Vector2(0, 0);
     }

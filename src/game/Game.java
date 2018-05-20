@@ -25,6 +25,10 @@ public class Game {
         bullets = new ArrayList<>();
     }
 
+    public void loadMap() {
+        map = new Map(0, 0, 8000, 6000);
+    }
+
     public Game(List<Player> players) {
         this(players, null);
     }
@@ -57,5 +61,9 @@ public class Game {
 
     public List<Bullet> getBullets() {
         return bullets;
+    }
+
+    public Map getMap() {
+        return map;
     }
 }

@@ -12,7 +12,7 @@ public class Bullet extends Actor
     {
         velocity = new Vector2(vx, vy);
         absPos = new Vector2(x, y);
-        this.setPicture("src/smallMayrio.png");
+        this.setPicture("images/smallMayrio.png");
     }
 
     @Override
