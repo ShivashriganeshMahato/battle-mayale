@@ -15,14 +15,17 @@ import java.util.List;
 public class ServerInterface extends Stage {
     private List<PlayerText> players;
     private ServerManager manager;
-    private Button button;
+    private Button playBtn;
+    private Button endBtn;
 
     public ServerInterface(int port) {
         setBackgroundColor(Color.WHITE);
         players = new ArrayList<>();
         manager = new ServerManager(port, this);
-        button = new Button("PLAY");
-        addActor(button, 600, 20);
+        playBtn = new Button("PLAY");
+        endBtn = new Button("STOP");
+        addActor(playBtn, 600, 20);
+        addActor(endBtn, 600, 50);
         addActor(new Text("Players:"), 50, 10);
 
         new Mayflower("Battle Mayale Server", 800, 800, this);
@@ -31,14 +34,23 @@ public class ServerInterface extends Stage {
     @Override
     public void update() {
         if (players.size() >= 3 && manager.getGame() == null) {
-            button.enable();
+            playBtn.enable();
+            endBtn.disable();
         } else {
-//            button.disable();
+//            endBtn.enable();
+//            playBtn.disable();
         }
 
-        if (button.isClicked() && !button.isDisabled()) {
-            setInGame(manager.startGame());
-            button.disable();
+        if (playBtn.isClicked() && !playBtn.isDisabled()) {
+            setInGame(manager.startGame(), true);
+            playBtn.disable();
+            endBtn.enable();
+        }
+
+        if (endBtn.isClicked() && !endBtn.isDisabled()) {
+            setInGame(manager.endGame(), false);
+            playBtn.enable();
+            endBtn.disable();
         }
 
         for (int i = 0; i < players.size(); i++) {
@@ -48,11 +60,11 @@ public class ServerInterface extends Stage {
 //        System.out.println(players);
     }
 
-    private void setInGame(List<Player> players) {
+    private void setInGame(List<Player> players, boolean inGame) {
         for (Player player : players) {
             for (PlayerText text : this.players) {
                 if (player.getId() == text.getId())
-                    text.setInGame(true);
+                    text.setInGame(inGame);
             }
         }
     }

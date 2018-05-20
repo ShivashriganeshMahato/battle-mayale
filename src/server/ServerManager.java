@@ -25,34 +25,38 @@ public class ServerManager extends Server {
     @Override
     public void process(int i, String s) {
         String[] command = s.split(" ");
-        if (command[0].equals("name")) {
-            for (Player player : playerQueue) {
-                if (player.getId() == i) {
-                    String newName = command[1];
-                    player.setName(newName);
-                    serverInterface.addPlayer(player);
-                    break;
+        switch (command[0]) {
+            case "name":
+                for (Player player : playerQueue) {
+                    if (player.getId() == i) {
+                        String newName = command[1];
+                        player.setName(newName);
+                        serverInterface.addPlayer(player);
+                        break;
+                    }
                 }
-            }
-        } else if (command[0].equals("move")) {
-            double xNew = Double.parseDouble(command[1]);
-            double yNew = Double.parseDouble(command[2]);
+                break;
+            case "move":
+                double xNew = Double.parseDouble(command[1]);
+                double yNew = Double.parseDouble(command[2]);
 
-            for (Player player : game.getPlayers()) {
-                if (player.getId() == i) {
-                    player.setPosition(xNew, yNew);
-                } else {
-                    send(player.getId(), "move " + i + " " + xNew + " " + yNew);
+                for (Player player : game.getPlayers()) {
+                    if (player.getId() == i) {
+                        player.setPosition(xNew, yNew);
+                    } else {
+                        send(player.getId(), "move " + i + " " + xNew + " " + yNew);
+                    }
                 }
-            }
-        } else if (command[0].equals("shoot")) {
-            for (Player player : game.getPlayers()) {
-                double x = Double.parseDouble(command[1]);
-                double y = Double.parseDouble(command[2]);
-                double vx = Double.parseDouble(command[3]);
-                double vy = Double.parseDouble(command[4]);
-                send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy);
-            }
+                break;
+            case "shoot":
+                for (Player player : game.getPlayers()) {
+                    double x = Double.parseDouble(command[1]);
+                    double y = Double.parseDouble(command[2]);
+                    double vx = Double.parseDouble(command[3]);
+                    double vy = Double.parseDouble(command[4]);
+                    send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy);
+                }
+                break;
         }
     }
 
@@ -92,6 +96,17 @@ public class ServerManager extends Server {
             send(player.getId(), "game " + player.getId() + " " + command);
         }
 
+        return gamePlayers;
+    }
+
+
+    public List<Player> endGame() {
+        List<Player> gamePlayers = game.getPlayers();
+        game = null;
+        for (Player player : gamePlayers) {
+            send(player.getId(), "end _");
+            playerQueue.add(player);
+        }
         return gamePlayers;
     }
 
