@@ -51,6 +51,7 @@ public abstract class Weapon extends Actor
 
     public void shoot(Vector2 poi)
     {
+        System.out.println(bulletsLeft);
         Vector2 vel = getVel(new Vector2(400, 300), poi);
         double vx = vel.getX();
         double vy = vel.getY();
@@ -89,6 +90,8 @@ public abstract class Weapon extends Actor
     }
 
     public String getMsgToSend() {
+        if (msgToSend != null)
+            System.out.println(msgToSend);
         return msgToSend;
     }
 

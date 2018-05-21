@@ -9,6 +9,6 @@ public class RailGun extends Weapon
 
     @Override
     public String getName() {
-        return "Rail Gun";
+        return "Railgun";
     }
 }

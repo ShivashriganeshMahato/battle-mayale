@@ -1,5 +1,6 @@
 package client;
 
+import entities.PickupGun;
 import entities.Tree;
 import game.Game;
 import game.map.Cell;
@@ -9,6 +10,7 @@ import stages.GameStage;
 import stages.LoadStage;
 import stages.QueueStage;
 import weapons.Bullet;
+import weapons.Weapon;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -57,11 +59,12 @@ public class ClientManager extends Client {
                 clientInterface.setStage(lStage);
                 break;
             case "map":
+                System.out.println("1");
                 int w = Integer.parseInt(command[3]);
                 int h = Integer.parseInt(command[4]);
                 Cell[][] grid = new Cell[h][w];
                 Cell newCell = null;
-                for (int i = 5; i < command.length; i++) {
+                for (int i = 5; i < command.length - 21; i++) {
                     switch (i % 3) {
                         case 2:
                             newCell = new Cell(-1, Integer.parseInt(command[i]));
@@ -75,6 +78,21 @@ public class ClientManager extends Client {
                             else
                                 newCell.close();
                             grid[newCell.getRow()][newCell.getCol()] = newCell;
+                            break;
+                    }
+                }
+                PickupGun gun = null;
+                for (int i = command.length - 21; i < command.length; i++) {
+                    switch ((i - (command.length - 21)) % 3) {
+                        case 0:
+                            gun = new PickupGun(-1, -1, command[i], game.getPlayers());
+                            break;
+                        case 1:
+                            gun.getAbsPos().setX(Double.parseDouble(command[i]));
+                            break;
+                        case 2:
+                            gun.getAbsPos().setY(Double.parseDouble(command[i]));
+                            game.addGun(gun);
                             break;
                     }
                 }
@@ -96,11 +114,13 @@ public class ClientManager extends Client {
                 }
                 break;
             case "shoot":
+                System.out.println("CLIENT RECEIVED");
                 // Generate bullet with absolute position given by command
                 double x = Double.parseDouble(command[1]);
                 double y = Double.parseDouble(command[2]);
                 double vx = Double.parseDouble(command[3]);
                 double vy = Double.parseDouble(command[4]);
+                System.out.println("ADDING");
                 game.addBullet(x, y, vx, vy);
                 break;
             case "end":

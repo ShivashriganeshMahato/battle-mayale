@@ -51,6 +51,7 @@ public class ServerManager extends Server {
                 }
                 break;
             case "shoot":
+                System.out.println("RECEIVED");
                 double x = Double.parseDouble(command[1]);
                 double y = Double.parseDouble(command[2]);
                 double vx = Double.parseDouble(command[3]);
@@ -58,6 +59,7 @@ public class ServerManager extends Server {
                 game.addBullet(x, y, vx, vy);
                 for (Player player : game.getPlayers()) {
                     send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy);
+                    System.out.println("CLIENT SENDING");
                 }
                 break;
         }
@@ -152,6 +154,12 @@ public class ServerManager extends Server {
                 builder.append(cell.getRow()).append(" ");
                 builder.append(cell.isOpen()).append(" ");
             }
+        }
+        String[] guns = {"LMG", "Pistol", "Railgun", "Rifle", "Shotgun", "SMG", "Sniper"};
+        for (String gun : guns) {
+            builder.append(gun).append(" ");
+            builder.append(Math.random() * 600).append(" ");
+            builder.append(Math.random() * 400).append(" ");
         }
 
         return builder.toString();

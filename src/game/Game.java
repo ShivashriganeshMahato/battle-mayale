@@ -1,6 +1,7 @@
 package game;
 
 import client.ClientManager;
+import entities.PickupGun;
 import entities.Tree;
 import game.map.Cell;
 import game.map.Map;
@@ -18,6 +19,7 @@ public class Game {
     private List<Player> alive;
     private List<Bullet> bullets;
     private List<Tree> trees;
+    private List<PickupGun> guns;
     private Map map;
     private boolean isOver;
     private ClientManager client;
@@ -29,6 +31,7 @@ public class Game {
         this.client = client;
         bullets = new ArrayList<>();
         trees = new ArrayList<>();
+        guns = new ArrayList<>();
     }
 
     public Game(List<Player> players) {
@@ -103,5 +106,13 @@ public class Game {
 
     public List<Tree> getTrees() {
         return trees;
+    }
+
+    public void addGun(PickupGun gun) {
+        guns.add(gun);
+    }
+
+    public List<PickupGun> getGuns() {
+        return guns;
     }
 }

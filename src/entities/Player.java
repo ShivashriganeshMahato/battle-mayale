@@ -4,8 +4,7 @@ import mayflower.Actor;
 import mayflower.Keyboard;
 import mayflower.Text;
 import util.Vector2;
-import weapons.Pistol;
-import weapons.Weapon;
+import weapons.*;
 
 import java.awt.*;
 import java.util.ConcurrentModificationException;
@@ -29,6 +28,8 @@ public class Player extends Actor {
     private Vector2 velocity;
     private Weapon weapon;
     private boolean[] stopped;
+    private int pickupTimer;
+    private boolean canPickup;
 
     public Player(String name, int id, double x, double y, boolean canMove) {
         this.name = name;
@@ -46,6 +47,8 @@ public class Player extends Actor {
         velocity = new Vector2(0, 0);
         weapon = new Pistol();
         stopped = new boolean[] {false, false, false, false};
+        pickupTimer = 0;
+        canPickup = true;
     }
 
     public Player(String name, int id, double x, double y) {
@@ -125,6 +128,13 @@ public class Player extends Actor {
             }
         }
         unstop();
+
+        if (!canPickup)
+            pickupTimer++;
+        if (pickupTimer > 25) {
+            pickupTimer = 0;
+            canPickup = true;
+        }
     }
 
     public void setCanMove(boolean canMove) {
@@ -170,6 +180,38 @@ public class Player extends Actor {
 
     public Vector2 getVelocity() {
         return velocity;
+    }
+
+    public String pickUp(String type) {
+        if (keyListener.isKeyPressed("E") && canPickup) {
+            String curType = weapon.getName();
+            weapon = getWeapon(type);
+            canPickup = false;
+            return curType;
+        } else {
+            return type;
+        }
+    }
+
+    private Weapon getWeapon(String type) {
+        switch (type) {
+            case "LMG":
+                return new LMG();
+            case "Pistol":
+                return new Pistol();
+            case "Railgun":
+                return new RailGun();
+            case "Rifle":
+                return new Rifle();
+            case "Shotgun":
+                return new Shotgun();
+            case "SMG":
+                return new SMG();
+            case "Sniper":
+                return new Sniper();
+            default:
+                return null;
+        }
     }
 
     public enum Direction {

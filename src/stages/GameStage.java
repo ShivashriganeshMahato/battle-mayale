@@ -1,5 +1,6 @@
 package stages;
 
+import entities.PickupGun;
 import entities.Tree;
 import game.Game;
 import game.map.Cell;
@@ -48,6 +49,11 @@ public class GameStage extends Stage {
             addActor(tree, (int) tree.getAbsX(), (int) tree.getAbsY());
         }
 
+        for (PickupGun gun : game.getGuns()) {
+            addActor(gun, (int) gun.getAbsX(), (int) gun.getAbsY());
+            System.out.println(gun.getAbsX() + " " + gun.getAbsY());
+        }
+
         bulletCount = 0;
 
         gunLabel = new Text("");
@@ -94,6 +100,11 @@ public class GameStage extends Stage {
                 double ax = tree.getAbsX();
                 double ay = tree.getAbsY();
                 tree.setPosition(ax + dAx, ay + dAy);
+            }
+            for (PickupGun gun : game.getGuns()) {
+                double ax = gun.getAbsX();
+                double ay = gun.getAbsY();
+                gun.setPosition(ax + dAx, ay + dAy);
             }
             game.getMap().setPosition(game.getMap().getAX() + dAx, game.getMap().getAY() + dAy);
         } catch (ConcurrentModificationException e) {
