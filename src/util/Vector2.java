@@ -12,6 +12,10 @@ public class Vector2 {
         this.y = y;
     }
 
+    public double getMag() {
+        return Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2));
+    }
+
     public double getX() {
         return x;
     }
@@ -34,13 +38,33 @@ public class Vector2 {
         return this;
     }
 
+    public Vector2 add(double dx, double dy) {
+        x += dx;
+        y += dy;
+        return this;
+    }
+
     public Vector2 sub(Vector2 vector) {
         x -= vector.x;
         y -= vector.y;
         return this;
     }
 
+    public void set(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void zero() {
+        x = y = 0;
+    }
+
     public double dot(Vector2 vector) {
         return x * vector.x + y * vector.y;
+    }
+
+    @Override
+    public String toString() {
+        return "X " + getX() + " Y " + getY();
     }
 }
