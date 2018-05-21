@@ -26,11 +26,11 @@ public class LoadStage extends Stage {
 
     @Override
     public void update() {
-        counter++;
-        if (counter == 5) {
-            game.loadMap();
-            GameStage gStage = new GameStage(game, userID);
-            getMayflower().setStage(gStage);
-        }
+    }
+
+    public void goToPlay() {
+        System.out.println("reiohd");
+        GameStage gStage = new GameStage(game, userID);
+        getMayflower().setStage(gStage);
     }
 }

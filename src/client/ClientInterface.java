@@ -22,5 +22,10 @@ public class ClientInterface {
 
     public void setStage(Stage stage) {
         application.setStage(stage);
+        curStage = stage;
+    }
+
+    public Stage getCurStage() {
+        return curStage;
     }
 }

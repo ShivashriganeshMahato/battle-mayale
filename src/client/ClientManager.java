@@ -1,14 +1,18 @@
 package client;
 
+import entities.Tree;
 import game.Game;
+import game.map.Cell;
 import mayflower.net.Client;
 import entities.Player;
+import stages.GameStage;
 import stages.LoadStage;
 import stages.QueueStage;
 import weapons.Bullet;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ClientManager extends Client {
@@ -51,6 +55,32 @@ public class ClientManager extends Client {
                 game = new Game(players, this);
                 LoadStage lStage = new LoadStage(game, Integer.parseInt(command[1]));
                 clientInterface.setStage(lStage);
+                break;
+            case "map":
+                int w = Integer.parseInt(command[3]);
+                int h = Integer.parseInt(command[4]);
+                Cell[][] grid = new Cell[h][w];
+                Cell newCell = null;
+                for (int i = 5; i < command.length; i++) {
+                    switch (i % 3) {
+                        case 2:
+                            newCell = new Cell(-1, Integer.parseInt(command[i]));
+                            break;
+                        case 0:
+                            newCell.setRow(Integer.parseInt(command[i]));
+                            break;
+                        case 1:
+                            if (Boolean.parseBoolean(command[i]))
+                                newCell.open();
+                            else
+                                newCell.close();
+                            grid[newCell.getRow()][newCell.getCol()] = newCell;
+                            break;
+                    }
+                }
+
+                game.loadMap(grid);
+                ((LoadStage) clientInterface.getCurStage()).goToPlay();
                 break;
             case "move":
                 // When a entities from some Client is moved, local entities must be moved accordingly

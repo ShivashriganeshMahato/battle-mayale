@@ -45,9 +45,10 @@ public class ServerInterface extends Stage {
         }
 
         if (playBtn.isClicked() && !playBtn.isDisabled()) {
-            setInGame(manager.startGame(), true);
+            setInGame(manager.setupGame(), true);
             playBtn.disable();
             endBtn.enable();
+            manager.startGame();
         }
 
         if (endBtn.isClicked() && !endBtn.isDisabled()) {

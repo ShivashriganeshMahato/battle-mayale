@@ -1,6 +1,8 @@
 package server;
 
 import game.Game;
+import game.map.Cell;
+import game.map.Map;
 import mayflower.net.Server;
 import entities.Player;
 
@@ -88,7 +90,7 @@ public class ServerManager extends Server {
 
     }
 
-    public List<Player> startGame() {
+    public List<Player> setupGame() {
         List<Player> gamePlayers = new ArrayList<>();
 
         while (playerQueue.size() > 0 && gamePlayers.size() <= 12) {
@@ -105,6 +107,13 @@ public class ServerManager extends Server {
         return gamePlayers;
     }
 
+    public void startGame() {
+        game.loadMap();
+        String command = getMapCommand(game.getMap());
+        for (Player player : game.getPlayers()) {
+            send(player.getId(), "map " + command);
+        }
+    }
 
     public List<Player> endGame() {
         List<Player> gamePlayers = game.getPlayers();
@@ -124,6 +133,24 @@ public class ServerManager extends Server {
             builder.append(player.getId()).append(" ");
             builder.append(player.getX()).append(" ");
             builder.append(player.getY()).append(" ");
+        }
+
+        return builder.toString();
+    }
+
+    private String getMapCommand(Map map) {
+        StringBuilder builder = new StringBuilder("");
+
+        builder.append(map.getAX()).append(" ");
+        builder.append(map.getAY()).append(" ");
+        builder.append(map.getGrid()[0].length).append(" ");
+        builder.append(map.getGrid().length).append(" ");
+        for (Cell[] cells : map.getGrid()) {
+            for (Cell cell : cells) {
+                builder.append(cell.getCol()).append(" ");
+                builder.append(cell.getRow()).append(" ");
+                builder.append(cell.isOpen()).append(" ");
+            }
         }
 
         return builder.toString();

@@ -41,4 +41,12 @@ public class Cell {
     public boolean isOpen() {
         return getState().equals(CellState.OPEN);
     }
+
+    public void open() {
+        state = CellState.OPEN;
+    }
+
+    public void close() {
+        state = CellState.BLOCKED;
+    }
 }

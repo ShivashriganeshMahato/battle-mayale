@@ -10,12 +10,13 @@ import java.util.Arrays;
  */
 public class Map extends Actor {
     private final double TreeChance = .1;
+    private final String image = "images/gudmap.jpg";
 
     private Vector2 absPos;
     private Cell[][] grid;
     
     public Map(double x, double y, double w, double h) {
-        setPicture("images/gudmap_small.jpg");
+        setPicture(image);
         absPos = new Vector2(x, y);
         grid = new Cell[(int) h / 40][(int) w / 40];
         for (int i = 0; i < grid.length; i++) {
@@ -24,6 +25,12 @@ public class Map extends Actor {
             }
         }
         generate();
+    }
+
+    public Map(double x, double y, Cell[][] grid) {
+        setPicture(image);
+        absPos = new Vector2(x, y);
+        this.grid = grid;
     }
 
     private void generate() {
@@ -70,22 +77,5 @@ public class Map extends Actor {
 
     public Cell[][] getGrid() {
         return grid;
-    }
-
-    private static class Grad {
-        double x, y, z, w;
-
-        Grad(double x, double y, double z) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-        }
-
-        Grad(double x, double y, double z, double w) {
-            this.x = x;
-            this.y = y;
-            this.z = z;
-            this.w = w;
-        }
     }
 }

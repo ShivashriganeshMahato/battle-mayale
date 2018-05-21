@@ -37,7 +37,16 @@ public class Game {
 
     public void loadMap() {
         map = new Map(0, 0, 600, 400);
-        for (Cell[] cells : map.getGrid()) {
+        genTrees(map.getGrid());
+    }
+
+    public void loadMap(Cell[][] grid) {
+        map = new Map(0, 0, grid);
+        genTrees(grid);
+    }
+
+    private void genTrees(Cell[][] grid) {
+        for (Cell[] cells : grid) {
             for (Cell cell : cells) {
                 if (!cell.isOpen()) {
                     trees.add(new Tree(cell.getCol() * 100, cell.getRow() * 100, players));
