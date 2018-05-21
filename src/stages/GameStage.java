@@ -1,18 +1,14 @@
 package stages;
 
+import entities.Tree;
 import game.Game;
-import game.Map;
-import mayflower.Actor;
-import mayflower.Picture;
+import game.map.Cell;
 import mayflower.Stage;
-import mayflower.Text;
-import player.Player;
-import util.Vector2;
+import entities.Player;
 import weapons.Bullet;
-import weapons.SMG;
 
 import java.awt.*;
-import java.util.ConcurrentModificationException;
+import java.util.*;
 
 /**
  * @author Shivashriganesh Mahato
@@ -41,6 +37,10 @@ public class GameStage extends Stage {
             addActor(player.getWeapon(), player.getX(), player.getY());
         }
         addActor(user, 5, 5);
+
+        for (Tree tree : game.getTrees()) {
+            addActor(tree, (int) tree.getAbsX(), (int) tree.getAbsY());
+        }
 
         bulletCount = 0;
     }
@@ -72,6 +72,11 @@ public class GameStage extends Stage {
                 double ax = bullet.getAbsPos().getX();
                 double ay = bullet.getAbsPos().getY();
                 bullet.setPosition(ax + dAx, ay + dAy);
+            }
+            for (Tree tree : game.getTrees()) {
+                double ax = tree.getAbsX();
+                double ay = tree.getAbsY();
+                tree.setPosition(ax + dAx, ay + dAy);
             }
             game.getMap().setPosition(game.getMap().getAX() + dAx, game.getMap().getAY() + dAy);
         } catch (ConcurrentModificationException e) {

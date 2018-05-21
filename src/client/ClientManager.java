@@ -2,8 +2,7 @@ package client;
 
 import game.Game;
 import mayflower.net.Client;
-import player.Player;
-import stages.GameStage;
+import entities.Player;
 import stages.LoadStage;
 import stages.QueueStage;
 import weapons.Bullet;
@@ -28,7 +27,7 @@ public class ClientManager extends Client {
         String[] command = s.split(" ");
         switch (command[0]) {
             case "game":
-                // On game start, instantiate local Game with player data
+                // On game start, instantiate local Game with entities data
                 List<Player> players = new ArrayList<>();
                 Player newPlayer = null;
                 for (int i = 2; i < command.length; i++) {
@@ -54,7 +53,7 @@ public class ClientManager extends Client {
                 clientInterface.setStage(lStage);
                 break;
             case "move":
-                // When a player from some Client is moved, local player must be moved accordingly
+                // When a entities from some Client is moved, local entities must be moved accordingly
                 double xNew = Double.parseDouble(command[2]);
                 double yNew = Double.parseDouble(command[3]);
                 for (Player player : game.getPlayers()) {

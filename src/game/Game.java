@@ -1,8 +1,10 @@
 package game;
 
-import client.ClientInterface;
 import client.ClientManager;
-import player.Player;
+import entities.Tree;
+import game.map.Cell;
+import game.map.Map;
+import entities.Player;
 import weapons.Bullet;
 
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ public class Game {
     private List<Player> players;
     private List<Player> alive;
     private List<Bullet> bullets;
+    private List<Tree> trees;
     private Map map;
     private boolean isOver;
     private ClientManager client;
@@ -25,14 +28,22 @@ public class Game {
         alive.addAll(players);
         this.client = client;
         bullets = new ArrayList<>();
-    }
-
-    public void loadMap() {
-        map = new Map(0, 0, 8000, 6000);
+        trees = new ArrayList<>();
     }
 
     public Game(List<Player> players) {
         this(players, null);
+    }
+
+    public void loadMap() {
+        map = new Map(0, 0, 600, 400);
+        for (Cell[] cells : map.getGrid()) {
+            for (Cell cell : cells) {
+                if (!cell.isOpen()) {
+                    trees.add(new Tree(cell.getCol() * 100, cell.getRow() * 100, players));
+                }
+            }
+        }
     }
 
     public void addPlayer(Player player) {
@@ -71,5 +82,9 @@ public class Game {
 
     public Map getMap() {
         return map;
+    }
+
+    public List<Tree> getTrees() {
+        return trees;
     }
 }

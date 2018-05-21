@@ -2,7 +2,7 @@ package server;
 
 import game.Game;
 import mayflower.net.Server;
-import player.Player;
+import entities.Player;
 
 import java.util.ArrayList;
 import java.util.LinkedList;

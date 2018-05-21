@@ -4,7 +4,7 @@ package server;
 import mayflower.Mayflower;
 import mayflower.Stage;
 import mayflower.Text;
-import player.Player;
+import entities.Player;
 import ui.PlayerText;
 import ui.Button;
 
@@ -61,7 +61,7 @@ public class ServerInterface extends Stage {
         }
 
         if (manager.getGame() == null)
-            aliveCount.setText("");
+            aliveCount.setText("No game yet");
         else
             aliveCount.setText("Alive: " + manager.getGame().getAlive().size());
     }

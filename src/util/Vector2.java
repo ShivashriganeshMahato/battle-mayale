@@ -38,6 +38,12 @@ public class Vector2 {
         return this;
     }
 
+    public Vector2 add(double dx, double dy) {
+        x += dx;
+        y += dy;
+        return this;
+    }
+
     public Vector2 sub(Vector2 vector) {
         x -= vector.x;
         y -= vector.y;
@@ -47,6 +53,10 @@ public class Vector2 {
     public void set(double x, double y) {
         this.x = x;
         this.y = y;
+    }
+
+    public void zero() {
+        x = y = 0;
     }
 
     public double dot(Vector2 vector) {
