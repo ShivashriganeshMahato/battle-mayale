@@ -13,6 +13,8 @@ import java.util.ConcurrentModificationException;
  * @author Shivashriganesh Mahato
  */
 public class Player extends Actor {
+    private final int Speed = 3;
+
     private String name;
     private int id;
     private int health;
@@ -97,30 +99,30 @@ public class Player extends Actor {
                 mousePos = MouseInfo.getPointerInfo();
                 if (keyListener.isKeyPressed("W") && !stopped[Direction.UP.ind]) {
                     //weapon.move(1,"NORTH");
-                    move(1, "NORTH");
-                    setAbsPos(getAbsX(), getAbsY() - 1);
-                    velocity.add(0, -1);
+                    move(Speed, "NORTH");
+                    setAbsPos(getAbsX(), getAbsY() - Speed);
+                    velocity.add(0, -Speed);
                     didJustMove = true;
                 }
                 if (keyListener.isKeyPressed("S") && !stopped[Direction.DOWN.ind]) {
                     // weapon.move(1,"SOUTH");
-                    move(1, "SOUTH");
-                    setAbsPos(getAbsX(), getAbsY() + 1);
-                    velocity.add(0, 1);
+                    move(Speed, "SOUTH");
+                    setAbsPos(getAbsX(), getAbsY() + Speed);
+                    velocity.add(0, Speed);
                     didJustMove = true;
                 }
                 if (keyListener.isKeyPressed("A") && !stopped[Direction.LEFT.ind]) {
                     //weapon.move(1,"WEST");
-                    move(1, "WEST");
-                    setAbsPos(getAbsX() - 1, getAbsY());
-                    velocity.add(-1, 0);
+                    move(Speed, "WEST");
+                    setAbsPos(getAbsX() - Speed, getAbsY());
+                    velocity.add(-Speed, 0);
                     didJustMove = true;
                 }
                 if (keyListener.isKeyPressed("D") && !stopped[Direction.RIGHT.ind]) {
                     //weapon.move(1,"EAST");
-                    move(1, "EAST");
-                    setAbsPos(getAbsX() + 1, getAbsY());
-                    velocity.add(1, 0);
+                    move(Speed, "EAST");
+                    setAbsPos(getAbsX() + Speed, getAbsY());
+                    velocity.add(Speed, 0);
                     didJustMove = true;
                 }
             } catch (ConcurrentModificationException e) {
@@ -135,6 +137,8 @@ public class Player extends Actor {
             pickupTimer = 0;
             canPickup = true;
         }
+
+        System.out.println(getAbsX());
     }
 
     public void setCanMove(boolean canMove) {
