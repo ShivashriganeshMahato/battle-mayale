@@ -4,6 +4,7 @@ import mayflower.Actor;
 import mayflower.Keyboard;
 import mayflower.Text;
 import util.Vector2;
+import weapons.Bullet;
 import weapons.Pistol;
 import weapons.SMG;
 import weapons.Weapon;
@@ -28,7 +29,7 @@ public class Player extends Actor {
     private boolean didJustMove;
     private Vector2 absPos;
     private Weapon weapon;
-
+    private boolean hasDied;
     public Player(String name, int id, double x, double y, boolean canMove) {
         this.name = name;
         this.id = id;
@@ -43,6 +44,7 @@ public class Player extends Actor {
         tag = new Text(name, Color.WHITE);
         absPos = new Vector2(x, y);
         weapon = new Pistol();
+        hasDied = false;
     }
 
     public Player(String name, int id, double x, double y) {
@@ -82,8 +84,33 @@ public class Player extends Actor {
         setY(getY() + dy);
     }
 
-    public void update() {
-        if (canMove) {
+    public void update()
+    {
+
+        if(!isAlive)
+        {
+            health+=10000000;
+            getStage().removeActor(this);
+            isAlive = true;
+    }
+        if(isAlive)
+        {
+            Actor[] actors = getTouching();
+            for (Actor a: actors)
+            {
+                if(a instanceof Bullet)
+                {
+                    health-=1;
+                }
+            }
+            if(health <=0)
+            {
+                isAlive = false;
+                hasDied = true;
+            }
+        }
+
+        if (canMove && !hasDied) {
             didJustMove = false;
             try {
                 keyListener = getKeyboard();
@@ -127,6 +154,11 @@ public class Player extends Actor {
 
     public boolean didJustMove() {
         return didJustMove;
+    }
+
+    public boolean isStillAlive()
+    {
+        return isAlive;
     }
 
     public Text getTag() {

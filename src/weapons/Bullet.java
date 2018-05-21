@@ -37,4 +37,5 @@ public class Bullet extends Actor
     public Vector2 getAbsPos() {
         return absPos;
     }
+
 }

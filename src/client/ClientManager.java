@@ -69,27 +69,38 @@ public class ClientManager extends Client {
             double vy = Double.parseDouble(command[4]);
             game.addBullet(new Bullet(x, y, vx, vy));
         }
+        if (command[0].equals("remove")) {
+            for (Player player : game.getPlayers())
+            {
+                if (player.getId() == Integer.parseInt(command[1]))
+                {
+                    player.getStage().removeActor(player);
+                }
+            }
+        }
     }
 
     @Override
-    public void onDisconnect(String s) {
+    public void onDisconnect(String s)
+    {
+
     }
 
     @Override
     public void onConnect() {
-//        String name;
-//
-//        do {
-//            String output = JOptionPane.showInputDialog("What is your name?");
-//            if (output.contains(" ") || output.length() == 0) {
-//                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
-//                continue;
-//            }
-//            name = output;
-//            break;
-//        } while (true);
-//
-//        send("name " + name);
-        send("name Joe");
+        String name;
+
+        do {
+            String output = JOptionPane.showInputDialog("What is your name?");
+            if (output.contains(" ") || output.length() == 0) {
+                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
+                continue;
+            }
+            name = output;
+            break;
+        } while (true);
+
+        send("name " + name);
+       // send("name Joe");
     }
 }

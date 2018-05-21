@@ -24,6 +24,7 @@ public class ServerManager extends Server {
 
     @Override
     public void process(int i, String s) {
+
         String[] command = s.split(" ");
         if (command[0].equals("name")) {
             for (Player player : playerQueue) {
@@ -52,6 +53,18 @@ public class ServerManager extends Server {
                 double vx = Double.parseDouble(command[3]);
                 double vy = Double.parseDouble(command[4]);
                 send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy);
+            }
+
+        }
+        if(command[0].equals("removePlayer"))
+        {
+            for (Player player : game.getPlayers()) {
+                if (player.getId() == i) {
+                    player.getStage().removeActor(player);
+                }
+                else {
+                    send(player.getId(), "remove " + command[1]);
+                }
             }
         }
     }
