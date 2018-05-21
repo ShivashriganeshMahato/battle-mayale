@@ -101,7 +101,7 @@ public class ClientManager extends Client {
                 double y = Double.parseDouble(command[2]);
                 double vx = Double.parseDouble(command[3]);
                 double vy = Double.parseDouble(command[4]);
-                game.addBullet(new Bullet(x, y, vx, vy));
+                game.addBullet(x, y, vx, vy);
                 break;
             case "end":
                 game = null;

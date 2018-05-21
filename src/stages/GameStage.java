@@ -3,12 +3,14 @@ package stages;
 import entities.Tree;
 import game.Game;
 import game.map.Cell;
+import mayflower.Actor;
 import mayflower.Stage;
 import entities.Player;
 import weapons.Bullet;
 
 import java.awt.*;
 import java.util.*;
+import java.util.List;
 
 /**
  * @author Shivashriganesh Mahato
@@ -68,11 +70,17 @@ public class GameStage extends Stage {
                 player.getTag().setPosition(ax + dAx - 30, ay + dAy - 65);
                 player.getWeapon().setPosition(ax + dAx, ay + dAy);
             }
+            List<Bullet> toRemove = new ArrayList<>();
             for (Bullet bullet : game.getBullets()) {
                 double ax = bullet.getAbsPos().getX();
                 double ay = bullet.getAbsPos().getY();
                 bullet.setPosition(ax + dAx, ay + dAy);
+                if (bullet.isDead()) {
+                    removeActor(bullet);
+                    toRemove.add(bullet);
+                }
             }
+            game.removeBullets(toRemove);
             for (Tree tree : game.getTrees()) {
                 double ax = tree.getAbsX();
                 double ay = tree.getAbsY();

@@ -51,11 +51,12 @@ public class ServerManager extends Server {
                 }
                 break;
             case "shoot":
+                double x = Double.parseDouble(command[1]);
+                double y = Double.parseDouble(command[2]);
+                double vx = Double.parseDouble(command[3]);
+                double vy = Double.parseDouble(command[4]);
+                game.addBullet(x, y, vx, vy);
                 for (Player player : game.getPlayers()) {
-                    double x = Double.parseDouble(command[1]);
-                    double y = Double.parseDouble(command[2]);
-                    double vx = Double.parseDouble(command[3]);
-                    double vy = Double.parseDouble(command[4]);
                     send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy);
                 }
                 break;

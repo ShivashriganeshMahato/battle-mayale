@@ -29,7 +29,6 @@ public class LoadStage extends Stage {
     }
 
     public void goToPlay() {
-        System.out.println("reiohd");
         GameStage gStage = new GameStage(game, userID);
         getMayflower().setStage(gStage);
     }

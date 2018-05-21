@@ -49,7 +49,7 @@ public class Game {
         for (Cell[] cells : grid) {
             for (Cell cell : cells) {
                 if (!cell.isOpen()) {
-                    trees.add(new Tree(cell.getCol() * 100, cell.getRow() * 100, players));
+                    trees.add(new Tree(cell.getCol() * 100, cell.getRow() * 100, players, bullets));
                 }
             }
         }
@@ -81,8 +81,16 @@ public class Game {
         client.send(commandToSend);
     }
 
-    public void addBullet(Bullet bullet) {
-        bullets.add(bullet);
+    public void addBullet(double x, double y, double vx, double vy) {
+        bullets.add(new Bullet(x, y, vx, vy));
+    }
+
+    public void removeBullet(Bullet bullet) {
+        bullets.remove(bullet);
+    }
+
+    public void removeBullets(List<Bullet> bullets) {
+        this.bullets.removeAll(bullets);
     }
 
     public List<Bullet> getBullets() {
