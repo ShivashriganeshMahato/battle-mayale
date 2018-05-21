@@ -3,6 +3,7 @@ package weapons;
 import mayflower.Actor;
 import mayflower.Mouse;
 import mayflower.Timer;
+import player.Player;
 import util.Vector2;
 
 import java.awt.event.KeyEvent;
@@ -21,9 +22,10 @@ public abstract class Weapon extends Actor
     private Timer timer;
     private String msgToSend;
     private Vector2 absPos;
-
-    public Weapon(int bs, int ms, int b, int bd)
+    private Player player;
+    public Weapon(int bs, int ms, int b, int bd,Player p)
     {
+        player = p;
         bulletSpeed = bs;
         magSize = ms;
         bullets = b;
@@ -40,7 +42,7 @@ public abstract class Weapon extends Actor
     {
         mouseListener = getMouse();
         mousePos = new Vector2(mouseListener.getX(), mouseListener.getY());
-        if(mouseListener.isButtonPressed())
+        if(mouseListener.isButtonPressed() && !player.isHasDied())
         {
             this.shoot(mousePos);
         }
@@ -57,7 +59,7 @@ public abstract class Weapon extends Actor
         if(bulletsLeft != 0)
         {
             //spawn # of bullets as stated by the bullets variable and subtract 1 from bulletsLeft
-            msgToSend = "shoot " + absPos.getX() + " " + absPos.getY() + " " + vx + " " + vy;
+            msgToSend = "shoot " + absPos.getX() + " " + absPos.getY() + " " + vx + " " + vy + " " + player.getId();
             bulletsLeft--;
             if (bulletsLeft == 0)
                 timer.reset();
@@ -88,6 +90,7 @@ public abstract class Weapon extends Actor
         }
     }
 
+    public Player getPlayer(){return player;}
     public String getMsgToSend() {
         return msgToSend;
     }

@@ -43,7 +43,7 @@ public class Player extends Actor {
         setPosition(x, y);
         tag = new Text(name, Color.WHITE);
         absPos = new Vector2(x, y);
-        weapon = new Pistol();
+        weapon = new Pistol(this);
         hasDied = false;
     }
 
@@ -90,7 +90,7 @@ public class Player extends Actor {
         if(!isAlive)
         {
             health+=10000000;
-            getStage().removeActor(this);
+           // getStage().removeActor(weapon);
             isAlive = true;
     }
         if(isAlive)
@@ -98,15 +98,16 @@ public class Player extends Actor {
             Actor[] actors = getTouching();
             for (Actor a: actors)
             {
-                if(a instanceof Bullet)
+                if(a instanceof Bullet && ((Bullet) a).getPlayer().getId() != getId())
                 {
-                    health-=1;
+                    health-=100;
                 }
             }
             if(health <=0)
             {
                 isAlive = false;
                 hasDied = true;
+
             }
         }
 
@@ -159,6 +160,10 @@ public class Player extends Actor {
     public boolean isStillAlive()
     {
         return isAlive;
+    }
+    public boolean isHasDied()
+    {
+        return hasDied;
     }
 
     public Text getTag() {

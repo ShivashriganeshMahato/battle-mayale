@@ -52,19 +52,21 @@ public class ServerManager extends Server {
                 double y = Double.parseDouble(command[2]);
                 double vx = Double.parseDouble(command[3]);
                 double vy = Double.parseDouble(command[4]);
-                send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy);
+                int id = Integer.parseInt(command[5]);
+                    send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy+ " " + id);
+
             }
 
         }
         if(command[0].equals("removePlayer"))
         {
             for (Player player : game.getPlayers()) {
-                if (player.getId() == i) {
-                    player.getStage().removeActor(player);
-                }
-                else {
+                //if (player.getId() == i) {
+                    //player.getStage().removeActor(player);
+                //}
+               // else {
                     send(player.getId(), "remove " + command[1]);
-                }
+                //}
             }
         }
     }

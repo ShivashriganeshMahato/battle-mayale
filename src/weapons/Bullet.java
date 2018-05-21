@@ -1,18 +1,20 @@
 package weapons;
 
 import mayflower.Actor;
+import player.Player;
 import util.Vector2;
 
 public class Bullet extends Actor
 {
     private Vector2 velocity;
     private Vector2 absPos;
-
-    public Bullet(double x, double y, double vx, double vy)
+    private  Player player;
+    public Bullet(double x, double y, double vx, double vy, Player a)
     {
         velocity = new Vector2(vx, vy);
         absPos = new Vector2(x, y);
         this.setPicture("src/smallMayrio.png");
+        player = a;
     }
 
     @Override
@@ -38,4 +40,7 @@ public class Bullet extends Actor
         return absPos;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
 }
