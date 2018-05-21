@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class Map extends Actor {
     private final double TreeChance = .1;
-    private final String image = "images/gudmap.jpg";
+    private final String image = "images/grass.png";
 
     private Vector2 absPos;
     private Cell[][] grid;

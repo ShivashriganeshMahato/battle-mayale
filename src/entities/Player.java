@@ -40,7 +40,7 @@ public class Player extends Actor {
         isAlive = true;
         fireSpeed = 0;
         ammo = 0;
-        setPicture("images/RAWR.jpg");
+        setPicture("images/player.png");
         setPosition(x, y);
         tag = new Text(name, Color.WHITE);
         absPos = new Vector2(x, y);
@@ -183,14 +183,17 @@ public class Player extends Actor {
     }
 
     public String pickUp(String type) {
-        if (keyListener.isKeyPressed("E") && canPickup) {
-            String curType = weapon.getName();
-            weapon = getWeapon(type);
-            canPickup = false;
-            return curType;
-        } else {
-            return type;
+        try {
+            if (keyListener.isKeyPressed("E") && canPickup) {
+                String curType = weapon.getName();
+                weapon = getWeapon(type);
+                canPickup = false;
+                return curType;
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Java is bad 2.0.");
         }
+        return type;
     }
 
     private Weapon getWeapon(String type) {
