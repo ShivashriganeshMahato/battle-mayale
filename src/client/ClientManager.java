@@ -14,8 +14,7 @@ public class ClientManager extends Client {
     private ClientInterface clientInterface;
 
     public ClientManager(String IP, int port, ClientInterface clientInterface) {
-        // TODO For testing
-//        connect(IP, port);
+        connect(IP, port);
         game = null;
         this.clientInterface = clientInterface;
     }
@@ -64,20 +63,19 @@ public class ClientManager extends Client {
 
     @Override
     public void onConnect() {
-        // TODO For testing
-//        String name;
-//
-//        do {
-//            String output = JOptionPane.showInputDialog("What is your name?");
-//            if (output.contains(" ") || output.length() == 0) {
-//                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
-//                continue;
-//            }
-//            name = output;
-//            break;
-//        } while (true);
-//
-//        send("name " + name);
-        send("name Joe");
+        String name;
+
+        do {
+            String output = JOptionPane.showInputDialog("What is your name?");
+            if (output.contains(" ") || output.length() == 0) {
+                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
+                continue;
+            }
+            name = output;
+            break;
+        } while (true);
+
+        send("name " + name);
+//        send("name Joe");
     }
 }

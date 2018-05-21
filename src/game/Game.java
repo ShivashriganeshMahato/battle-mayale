@@ -19,7 +19,6 @@ public class Game {
     public Game(List<Player> players, ClientManager client) {
         this.players = players;
         this.client = client;
-        map = new Map();
     }
 
     public Game(List<Player> players) {
@@ -45,11 +44,6 @@ public class Game {
     }
 
     public void sendCommand(String commandToSend) {
-        // TODO For testing
-//        client.send(commandToSend);
-    }
-
-    public Map getMap() {
-        return map;
+        client.send(commandToSend);
     }
 }
