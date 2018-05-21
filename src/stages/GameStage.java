@@ -1,18 +1,18 @@
 package stages;
 
+import entities.PickupGun;
+import entities.Tree;
 import game.Game;
-import game.Map;
+import game.map.Cell;
 import mayflower.Actor;
-import mayflower.Picture;
 import mayflower.Stage;
+import entities.Player;
 import mayflower.Text;
-import player.Player;
-import util.Vector2;
 import weapons.Bullet;
-import weapons.SMG;
 
 import java.awt.*;
-import java.util.ConcurrentModificationException;
+import java.util.*;
+import java.util.List;
 
 /**
  * @author Shivashriganesh Mahato
@@ -21,14 +21,17 @@ public class GameStage extends Stage {
     private int userID;
     private Game game;
     private Player user;
-    private Map map;
     private int bulletCount;
+
+    private Text gunLabel;
+    private Text ammoLabel;
 
     public GameStage(Game game, int userID) {
         this.game = game;
         this.userID = userID;
 
         setBackgroundColor(Color.GREEN);
+        addActor(game.getMap(), 0, 0);
 
         for (Player player : game.getPlayers()) {
             if (player.getId() != userID) {
@@ -42,10 +45,21 @@ public class GameStage extends Stage {
         }
         addActor(user, 5, 5);
 
-        map = new Map();
-        addActor(map, 0, 0);
+        for (Tree tree : game.getTrees()) {
+            addActor(tree, (int) tree.getAbsX(), (int) tree.getAbsY());
+        }
+
+        for (PickupGun gun : game.getGuns()) {
+            addActor(gun, (int) gun.getAbsX(), (int) gun.getAbsY());
+            System.out.println(gun.getAbsX() + " " + gun.getAbsY());
+        }
 
         bulletCount = 0;
+
+        gunLabel = new Text("");
+        ammoLabel = new Text("");
+        addActor(gunLabel, 20, 20);
+        addActor(ammoLabel, 20, 50);
     }
 
     @Override
@@ -71,14 +85,33 @@ public class GameStage extends Stage {
                 player.getTag().setPosition(ax + dAx - 30, ay + dAy - 65);
                 player.getWeapon().setPosition(ax + dAx, ay + dAy);
             }
+            List<Bullet> toRemove = new ArrayList<>();
             for (Bullet bullet : game.getBullets()) {
                 double ax = bullet.getAbsPos().getX();
                 double ay = bullet.getAbsPos().getY();
                 bullet.setPosition(ax + dAx, ay + dAy);
+                if (bullet.isDead()) {
+                    removeActor(bullet);
+                    toRemove.add(bullet);
+                }
             }
-            map.setPosition(dAx, dAy);
+            game.removeBullets(toRemove);
+            for (Tree tree : game.getTrees()) {
+                double ax = tree.getAbsX();
+                double ay = tree.getAbsY();
+                tree.setPosition(ax + dAx, ay + dAy);
+            }
+            for (PickupGun gun : game.getGuns()) {
+                double ax = gun.getAbsX();
+                double ay = gun.getAbsY();
+                gun.setPosition(ax + dAx, ay + dAy);
+            }
+            game.getMap().setPosition(game.getMap().getAX() + dAx, game.getMap().getAY() + dAy);
         } catch (ConcurrentModificationException e) {
             System.out.println("Java is bad");
         }
+
+        gunLabel.setText("Gun: " + user.getWeapon().getInfo());
+        ammoLabel.setText("Ammo: " + user.getWeapon().getAmmoInfo());
     }
 }

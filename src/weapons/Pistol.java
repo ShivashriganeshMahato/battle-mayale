@@ -8,4 +8,8 @@ public class Pistol extends Weapon
         super(6, 8, 1, 10);
     }
 
+    @Override
+    public String getName() {
+        return "Pistol";
+    }
 }

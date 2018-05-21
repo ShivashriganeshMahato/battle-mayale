@@ -4,7 +4,7 @@ package server;
 import mayflower.Mayflower;
 import mayflower.Stage;
 import mayflower.Text;
-import player.Player;
+import entities.Player;
 import ui.PlayerText;
 import ui.Button;
 
@@ -15,15 +15,21 @@ import java.util.List;
 public class ServerInterface extends Stage {
     private List<PlayerText> players;
     private ServerManager manager;
-    private Button button;
+    private Button playBtn;
+    private Button endBtn;
+    private Text aliveCount;
 
     public ServerInterface(int port) {
         setBackgroundColor(Color.WHITE);
         players = new ArrayList<>();
         manager = new ServerManager(port, this);
-        button = new Button("PLAY");
-        addActor(button, 600, 20);
+        playBtn = new Button("PLAY");
+        endBtn = new Button("STOP");
+        aliveCount = new Text("");
+        addActor(playBtn, 600, 20);
+        addActor(endBtn, 600, 50);
         addActor(new Text("Players:"), 50, 10);
+        addActor(aliveCount, 600, 80);
 
         new Mayflower("Battle Mayale Server", 800, 800, this);
     }
@@ -31,28 +37,41 @@ public class ServerInterface extends Stage {
     @Override
     public void update() {
         if (players.size() >= 3 && manager.getGame() == null) {
-            button.enable();
+            playBtn.enable();
+            endBtn.disable();
         } else {
-//            button.disable();
+//            endBtn.enable();
+//            playBtn.disable();
         }
 
-        if (button.isClicked() && !button.isDisabled()) {
-            setInGame(manager.startGame());
-            button.disable();
+        if (playBtn.isClicked() && !playBtn.isDisabled()) {
+            setInGame(manager.setupGame(), true);
+            playBtn.disable();
+            endBtn.enable();
+            manager.startGame();
+        }
+
+        if (endBtn.isClicked() && !endBtn.isDisabled()) {
+            setInGame(manager.endGame(), false);
+            playBtn.enable();
+            endBtn.disable();
         }
 
         for (int i = 0; i < players.size(); i++) {
             players.get(i).setPosition(50, 50 + i * 50);
         }
 
-//        System.out.println(players);
+        if (manager.getGame() == null)
+            aliveCount.setText("No game yet");
+        else
+            aliveCount.setText("Alive: " + manager.getGame().getAlive().size());
     }
 
-    private void setInGame(List<Player> players) {
+    private void setInGame(List<Player> players, boolean inGame) {
         for (Player player : players) {
             for (PlayerText text : this.players) {
                 if (player.getId() == text.getId())
-                    text.setInGame(true);
+                    text.setInGame(inGame);
             }
         }
     }

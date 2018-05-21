@@ -6,4 +6,9 @@ public class RailGun extends Weapon
     {
         super(10, 1, 1, 80);
     }
+
+    @Override
+    public String getName() {
+        return "Railgun";
+    }
 }
