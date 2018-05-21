@@ -8,4 +8,8 @@ public class LMG extends Weapon
         super(6, 40, 1, 6);
     }
 
+    @Override
+    public String getName() {
+        return "LMG";
+    }
 }

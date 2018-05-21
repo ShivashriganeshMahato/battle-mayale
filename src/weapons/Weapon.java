@@ -10,11 +10,11 @@ import java.awt.event.MouseEvent;
 
 public abstract class Weapon extends Actor
 {
-    int bulletSpeed;
-    int magSize;
-    int bullets;
-    int bulletsLeft;
-    int bulletDamage;
+    private int bulletSpeed;
+    private int magSize;
+    private int bullets;
+    private int bulletsLeft;
+    private int bulletDamage;
     private boolean mouse;
     private Mouse mouseListener;
     private Vector2 mousePos;
@@ -102,5 +102,24 @@ public abstract class Weapon extends Actor
 
     public Vector2 getAbsPos() {
         return absPos;
+    }
+
+    public abstract String getName();
+
+    public String getInfo() {
+        return getName() + "   Damage: " + bulletDamage;
+    }
+
+    public String getAmmoInfo() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(bulletsLeft);
+        builder.append("/");
+        builder.append(magSize);
+        if (bulletsLeft == 0) {
+            builder.append(" ").append(3 - timer.getTimePassed() / 1000);
+        }
+
+        return builder.toString();
     }
 }

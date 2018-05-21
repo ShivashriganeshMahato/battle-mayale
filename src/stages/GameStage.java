@@ -6,6 +6,7 @@ import game.map.Cell;
 import mayflower.Actor;
 import mayflower.Stage;
 import entities.Player;
+import mayflower.Text;
 import weapons.Bullet;
 
 import java.awt.*;
@@ -20,6 +21,9 @@ public class GameStage extends Stage {
     private Game game;
     private Player user;
     private int bulletCount;
+
+    private Text gunLabel;
+    private Text ammoLabel;
 
     public GameStage(Game game, int userID) {
         this.game = game;
@@ -45,6 +49,11 @@ public class GameStage extends Stage {
         }
 
         bulletCount = 0;
+
+        gunLabel = new Text("");
+        ammoLabel = new Text("");
+        addActor(gunLabel, 20, 20);
+        addActor(ammoLabel, 20, 50);
     }
 
     @Override
@@ -90,5 +99,8 @@ public class GameStage extends Stage {
         } catch (ConcurrentModificationException e) {
             System.out.println("Java is bad");
         }
+
+        gunLabel.setText("Gun: " + user.getWeapon().getInfo());
+        ammoLabel.setText("Ammo: " + user.getWeapon().getAmmoInfo());
     }
 }
