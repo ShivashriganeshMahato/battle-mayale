@@ -106,7 +106,7 @@ public class Maze {
         }
 
         // Open path for goal (every blocked cell left adjacent to goal)
-        for (int i = WIDTH - 1; grid[HEIGHT - 2][i].getState().equals(BLOCKED);) {
+        for (int i = WIDTH - 1; grid[HEIGHT - 2][i].getState().equals(BLOCKED); ) {
             grid[HEIGHT - 2][i].setState(OPEN);
             i--;
         }
@@ -165,22 +165,22 @@ public class Maze {
 
         solveVisited[row][col] = true;
         if (row != 0)
-            if (solve(row-1, col)) {
+            if (solve(row - 1, col)) {
                 solvedPath[row][col] = true;
                 return true;
             }
         if (row != WIDTH - 1)
-            if (solve(row+1, col)) {
+            if (solve(row + 1, col)) {
                 solvedPath[row][col] = true;
                 return true;
             }
         if (col != 0)
-            if (solve(row, col-1)) {
+            if (solve(row, col - 1)) {
                 solvedPath[row][col] = true;
                 return true;
             }
         if (col != HEIGHT - 1)
-            if (solve(row, col+1)) {
+            if (solve(row, col + 1)) {
                 solvedPath[row][col] = true;
                 return true;
             }

@@ -1,16 +1,15 @@
 package weapons;
 
+import entities.Player;
 import mayflower.Actor;
 import mayflower.Mouse;
 import mayflower.Timer;
-import entities.Player;
 import util.Vector2;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-public abstract class Weapon extends Actor
-{
+public abstract class Weapon extends Actor {
     private int bulletSpeed;
     private int magSize;
     private int bullets;
@@ -23,8 +22,8 @@ public abstract class Weapon extends Actor
     private String msgToSend;
     private Vector2 absPos;
     private Player player;
-    public Weapon(int bs, int ms, int b, int bd,Player p)
-    {
+
+    public Weapon(int bs, int ms, int b, int bd, Player p) {
         player = p;
         bulletSpeed = bs;
         magSize = ms;
@@ -38,12 +37,10 @@ public abstract class Weapon extends Actor
         absPos = new Vector2(0, 0);
     }
 
-    public void update()
-    {
+    public void update() {
         mouseListener = getMouse();
         mousePos = new Vector2(mouseListener.getX(), mouseListener.getY());
-        if(mouseListener.isButtonPressed() && !player.isHasDied())
-        {
+        if (mouseListener.isButtonPressed() && !player.isHasDied()) {
             this.shoot(mousePos);
         }
         if (bulletsLeft == 0 && timer.getTimePassed() >= 3000) {
@@ -51,14 +48,11 @@ public abstract class Weapon extends Actor
         }
     }
 
-    public void shoot(Vector2 poi)
-    {
-        System.out.println(bulletsLeft);
+    public void shoot(Vector2 poi) {
         Vector2 vel = getVel(new Vector2(400, 300), poi);
         double vx = vel.getX();
         double vy = vel.getY();
-        if(bulletsLeft != 0)
-        {
+        if (bulletsLeft != 0) {
             //spawn # of bullets as stated by the bullets variable and subtract 1 from bulletsLeft
             msgToSend = "shoot " + absPos.getX() + " " + absPos.getY() + " " + vx + " " + vy + " " + player.getId();
             bulletsLeft--;
@@ -75,26 +69,23 @@ public abstract class Weapon extends Actor
         return vel;
     }
 
-    public void mousePressed(MouseEvent e)
-    {
-        if (e.getButton() == KeyEvent.BUTTON1_MASK)
-        {
+    public void mousePressed(MouseEvent e) {
+        if (e.getButton() == KeyEvent.BUTTON1_MASK) {
             mouse = true;
         }
     }
 
-    public void mouseReleased(MouseEvent e)
-    {
-        if(e.getButton() == KeyEvent.BUTTON1_MASK)
-        {
+    public void mouseReleased(MouseEvent e) {
+        if (e.getButton() == KeyEvent.BUTTON1_MASK) {
             mouse = false;
         }
     }
 
-    public Player getPlayer(){return player;}
+    public Player getPlayer() {
+        return player;
+    }
+
     public String getMsgToSend() {
-        if (msgToSend != null)
-            System.out.println(msgToSend);
         return msgToSend;
     }
 

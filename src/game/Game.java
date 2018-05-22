@@ -2,10 +2,10 @@ package game;
 
 import client.ClientManager;
 import entities.PickupGun;
+import entities.Player;
 import entities.Tree;
 import game.map.Cell;
 import game.map.Map;
-import entities.Player;
 import weapons.Bullet;
 
 import java.util.ArrayList;

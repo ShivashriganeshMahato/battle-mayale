@@ -1,17 +1,16 @@
 package stages;
 
 import entities.PickupGun;
+import entities.Player;
 import entities.Tree;
 import game.Game;
-import game.map.Cell;
-import mayflower.Actor;
 import mayflower.Stage;
-import entities.Player;
 import mayflower.Text;
 import weapons.Bullet;
 
 import java.awt.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.ConcurrentModificationException;
 import java.util.List;
 
 /**
@@ -51,7 +50,6 @@ public class GameStage extends Stage {
 
         for (PickupGun gun : game.getGuns()) {
             addActor(gun, (int) gun.getAbsX(), (int) gun.getAbsY());
-            System.out.println(gun.getAbsX() + " " + gun.getAbsY());
         }
 
         bulletCount = 0;
@@ -64,8 +62,7 @@ public class GameStage extends Stage {
 
     @Override
     public void update() {
-        if(!user.isStillAlive())
-        {
+        if (!user.isStillAlive()) {
             game.sendCommand("removePlayer" + " " + userID);
         }
         if (user.didJustMove())
@@ -77,7 +74,6 @@ public class GameStage extends Stage {
             addActor(newBullet, (int) (newBullet.getAbsPos().getX() + dAx), (int) (newBullet.getAbsPos().getY() + dAy));
         }
         if (user.getWeapon().getMsgToSend() != null) {
-            System.out.println(user.getWeapon().getMsgToSend());
             game.sendCommand(user.getWeapon().getMsgToSend());
             user.getWeapon().clearMsg();
         }
@@ -117,5 +113,9 @@ public class GameStage extends Stage {
 
         gunLabel.setText("Gun: " + user.getWeapon().getInfo());
         ammoLabel.setText("Ammo: " + user.getWeapon().getAmmoInfo());
+    }
+
+    public int getUserID() {
+        return userID;
     }
 }

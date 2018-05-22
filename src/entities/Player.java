@@ -95,13 +95,12 @@ public class Player extends Actor {
 
         if (!isAlive) {
             health += 10000000;
-            // getStage().removeActor(weapon);
             isAlive = true;
         }
         Actor[] actors = getTouching();
         for (Actor a : actors) {
             if (a instanceof Bullet && ((Bullet) a).getPlayer().getId() != getId()) {
-                health -= weapon.getDamage();
+                health -= 100;
                 ((Bullet) a).kill();
             }
         }

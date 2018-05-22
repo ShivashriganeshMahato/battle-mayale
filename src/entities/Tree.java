@@ -1,8 +1,6 @@
 package entities;
 
-import game.Game;
 import mayflower.Actor;
-import stages.GameStage;
 import util.Vector2;
 import weapons.Bullet;
 

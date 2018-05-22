@@ -24,7 +24,6 @@ public class PickupGun extends Actor {
     public void update() {
         for (Player player : players) {
             if (isTouching(player)) {
-                System.out.println(type);
                 setType(player.pickUp(type));
             }
         }

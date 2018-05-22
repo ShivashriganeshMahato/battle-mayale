@@ -1,9 +1,7 @@
 package ui;
 
-import mayflower.Actor;
 import mayflower.Text;
 
-import javax.swing.*;
 import java.awt.*;
 
 /**

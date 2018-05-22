@@ -1,12 +1,11 @@
-
 package server;
 
+import entities.Player;
 import mayflower.Mayflower;
 import mayflower.Stage;
 import mayflower.Text;
-import entities.Player;
-import ui.PlayerText;
 import ui.Button;
+import ui.PlayerText;
 
 import java.awt.*;
 import java.util.ArrayList;

@@ -1,7 +1,5 @@
 package client;
 
-import javax.swing.*;
-
 public class ClientRunner {
     public static void main(String[] args) {
         // Ask for IP to connect to

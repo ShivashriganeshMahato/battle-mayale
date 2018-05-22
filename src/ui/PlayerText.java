@@ -1,7 +1,7 @@
 package ui;
 
-import mayflower.Text;
 import entities.Player;
+import mayflower.Text;
 
 /**
  * @author Shivashriganesh Mahato

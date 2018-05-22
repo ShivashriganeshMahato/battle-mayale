@@ -4,15 +4,13 @@ import entities.Player;
 import mayflower.Actor;
 import util.Vector2;
 
-public class Bullet extends Actor
-{
+public class Bullet extends Actor {
     private Vector2 velocity;
     private Vector2 absPos;
     private Player player;
     private boolean isDead;
 
-    public Bullet(double x, double y, double vx, double vy, Player a)
-    {
+    public Bullet(double x, double y, double vx, double vy, Player a) {
         velocity = new Vector2(vx, vy);
         absPos = new Vector2(x, y);
         this.setPicture("images/smallMayrio.png");

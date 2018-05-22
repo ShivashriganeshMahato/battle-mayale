@@ -1,10 +1,10 @@
 package server;
 
+import entities.Player;
 import game.Game;
 import game.map.Cell;
 import game.map.Map;
 import mayflower.net.Server;
-import entities.Player;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -55,22 +55,20 @@ public class ServerManager extends Server {
             int id = Integer.parseInt(command[5]);
             Player shooter = null;
             for (Player player : game.getPlayers()) {
-                send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy+ " " + id);
+                send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy + " " + id);
                 System.out.println("CLIENT SENDING");
                 if (player.getId() == id)
                     shooter = player;
             }
             game.addBullet(x, y, vx, vy, shooter);
-        } else if(command[0].equals("removePlayer"))
-        {
+        } else if (command[0].equals("removePlayer")) {
+            Player toRemove = null;
             for (Player player : game.getPlayers()) {
-                //if (player.getId() == i) {
-                //player.getStage().removeActor(player);
-                //}
-                // else {
                 send(player.getId(), "remove " + command[1]);
-                //}
+                if (player.getId() == Integer.parseInt(command[1]))
+                    toRemove = player;
             }
+            game.getAlive().remove(toRemove);
         }
     }
 

@@ -3,8 +3,6 @@ package game.map;
 import mayflower.Actor;
 import util.Vector2;
 
-import java.util.Arrays;
-
 /**
  * @author Shivashriganesh Mahato
  */
@@ -14,7 +12,7 @@ public class Map extends Actor {
 
     private Vector2 absPos;
     private Cell[][] grid;
-    
+
     public Map(double x, double y, double w, double h) {
         setPicture(image);
         absPos = new Vector2(x, y);

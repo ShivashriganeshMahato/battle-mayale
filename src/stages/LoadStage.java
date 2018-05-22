@@ -1,5 +1,7 @@
 package stages;
 
+import client.ClientInterface;
+import client.ClientManager;
 import game.Game;
 import mayflower.Stage;
 import mayflower.Text;
@@ -10,11 +12,13 @@ import java.awt.*;
  * @author Shivashriganesh Mahato
  */
 public class LoadStage extends Stage {
+    private ClientInterface ci;
     private Game game;
     private int userID;
     private int counter;
 
-    public LoadStage(Game game, int userID) {
+    public LoadStage(Game game, int userID, ClientInterface ci) {
+        this.ci = ci;
         this.game = game;
         this.userID = userID;
         counter = 0;
@@ -30,6 +34,6 @@ public class LoadStage extends Stage {
 
     public void goToPlay() {
         GameStage gStage = new GameStage(game, userID);
-        getMayflower().setStage(gStage);
+        ci.setStage(gStage);
     }
 }

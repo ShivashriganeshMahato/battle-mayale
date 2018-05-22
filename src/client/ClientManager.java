@@ -1,12 +1,11 @@
 package client;
 
 import entities.PickupGun;
+import entities.Player;
 import game.Game;
 import game.map.Cell;
 import mayflower.net.Client;
-import entities.Player;
-import stages.LoadStage;
-import stages.QueueStage;
+import stages.*;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -49,10 +48,9 @@ public class ClientManager extends Client {
             }
 
             game = new Game(players, this);
-            LoadStage lStage = new LoadStage(game, Integer.parseInt(command[1]));
+            LoadStage lStage = new LoadStage(game, Integer.parseInt(command[1]), clientInterface);
             clientInterface.setStage(lStage);
         } else if (command[0].equals("map")) {
-            System.out.println("1");
             int w = Integer.parseInt(command[3]);
             int h = Integer.parseInt(command[4]);
             Cell[][] grid = new Cell[h][w];
@@ -111,23 +109,26 @@ public class ClientManager extends Client {
             double vx = Double.parseDouble(command[3]);
             double vy = Double.parseDouble(command[4]);
             int id = Integer.parseInt(command[5]);
-            for (Player player : game.getPlayers())
-            {
-                if (player.getId() == id)
-                {
+            for (Player player : game.getPlayers()) {
+                if (player.getId() == id) {
                     game.addBullet(x, y, vx, vy, player);
                 }
             }
         } else if (command[0].equals("remove")) {
-            for (Player player : game.getPlayers())
-            {
-                if (player.getId() == Integer.parseInt(command[1]))
-                {
+            int id = Integer.parseInt(command[1]);
+            for (Player player : game.getPlayers()) {
+                if (player.getId() == id) {
                     player.getStage().removeActor(player.getWeapon());
                     player.getStage().removeActor(player.getTag());
                     player.getStage().removeActor(player);
-
+                    game.getAlive().remove(player);
                 }
+            }
+            if (((GameStage) clientInterface.getCurStage()).getUserID() == id) {
+                clientInterface.setStage(new GameOverStage(game.getAlive().size() + 1));
+            } else {
+                if (game.getAlive().size() == 1)
+                    clientInterface.setStage(new WinStage());
             }
         } else if (command[0].equals("end")) {
             game = null;
@@ -154,6 +155,6 @@ public class ClientManager extends Client {
         } while (true);
 
         send("name " + name);
-       // send("name Joe");
+        // send("name Joe");
     }
 }
