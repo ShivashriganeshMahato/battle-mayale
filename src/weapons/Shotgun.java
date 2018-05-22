@@ -1,6 +1,6 @@
 package weapons;
 
-import player.Player;
+import entities.Player;
 
 public class Shotgun extends Weapon
 {
@@ -10,4 +10,8 @@ public class Shotgun extends Weapon
         super(8, 2, 5, 10,p);
     }
 
+    @Override
+    public String getName() {
+        return "Shotgun";
+    }
 }

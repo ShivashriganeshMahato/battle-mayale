@@ -1,25 +1,27 @@
 package weapons;
 
+import entities.Player;
 import mayflower.Actor;
-import player.Player;
 import util.Vector2;
 
 public class Bullet extends Actor
 {
     private Vector2 velocity;
     private Vector2 absPos;
-    private  Player player;
+    private Player player;
+    private boolean isDead;
+
     public Bullet(double x, double y, double vx, double vy, Player a)
     {
         velocity = new Vector2(vx, vy);
         absPos = new Vector2(x, y);
-        this.setPicture("src/smallMayrio.png");
+        this.setPicture("images/smallMayrio.png");
+        isDead = false;
         player = a;
     }
 
     @Override
     public void update() {
-//        this.setPosition(getX() + velocity.getX(), getY() + velocity.getY());
         absPos.add(velocity);
     }
 
@@ -31,13 +33,21 @@ public class Bullet extends Actor
         this.setPosition(this.getX(), y);
     }
 
-    public void move(double dx, double dy) {
+    public void relMove(double dx, double dy) {
         setX(getX() + dx);
         setY(getY() + dy);
     }
 
     public Vector2 getAbsPos() {
         return absPos;
+    }
+
+    public void kill() {
+        isDead = true;
+    }
+
+    public boolean isDead() {
+        return isDead;
     }
 
     public Player getPlayer() {

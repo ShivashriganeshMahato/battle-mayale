@@ -3,7 +3,7 @@ package weapons;
 import mayflower.Actor;
 import mayflower.Mouse;
 import mayflower.Timer;
-import player.Player;
+import entities.Player;
 import util.Vector2;
 
 import java.awt.event.KeyEvent;
@@ -11,11 +11,11 @@ import java.awt.event.MouseEvent;
 
 public abstract class Weapon extends Actor
 {
-    int bulletSpeed;
-    int magSize;
-    int bullets;
-    int bulletsLeft;
-    int bulletDamage;
+    private int bulletSpeed;
+    private int magSize;
+    private int bullets;
+    private int bulletsLeft;
+    private int bulletDamage;
     private boolean mouse;
     private Mouse mouseListener;
     private Vector2 mousePos;
@@ -33,7 +33,7 @@ public abstract class Weapon extends Actor
         bulletDamage = bd;
         mouse = false;
         timer = new Timer();
-        setPicture("src/mayrio.png");
+        setPicture("images/mayrio.png");
         msgToSend = null;
         absPos = new Vector2(0, 0);
     }
@@ -53,6 +53,7 @@ public abstract class Weapon extends Actor
 
     public void shoot(Vector2 poi)
     {
+        System.out.println(bulletsLeft);
         Vector2 vel = getVel(new Vector2(400, 300), poi);
         double vx = vel.getX();
         double vy = vel.getY();
@@ -92,6 +93,8 @@ public abstract class Weapon extends Actor
 
     public Player getPlayer(){return player;}
     public String getMsgToSend() {
+        if (msgToSend != null)
+            System.out.println(msgToSend);
         return msgToSend;
     }
 
@@ -105,5 +108,28 @@ public abstract class Weapon extends Actor
 
     public Vector2 getAbsPos() {
         return absPos;
+    }
+
+    public abstract String getName();
+
+    public String getInfo() {
+        return getName() + "   Damage: " + bulletDamage;
+    }
+
+    public String getAmmoInfo() {
+        StringBuilder builder = new StringBuilder();
+
+        builder.append(bulletsLeft);
+        builder.append("/");
+        builder.append(magSize);
+        if (bulletsLeft == 0) {
+            builder.append(" ").append(3 - timer.getTimePassed() / 1000);
+        }
+
+        return builder.toString();
+    }
+
+    public int getDamage() {
+        return bulletDamage;
     }
 }

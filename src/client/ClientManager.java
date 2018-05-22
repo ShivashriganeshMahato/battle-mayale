@@ -1,10 +1,12 @@
 package client;
 
+import entities.PickupGun;
 import game.Game;
+import game.map.Cell;
 import mayflower.net.Client;
-import player.Player;
-import stages.GameStage;
-import weapons.Bullet;
+import entities.Player;
+import stages.LoadStage;
+import stages.QueueStage;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -47,10 +49,51 @@ public class ClientManager extends Client {
             }
 
             game = new Game(players, this);
-            GameStage stage = new GameStage(game, Integer.parseInt(command[1]));
-            clientInterface.setStage(stage);
+            LoadStage lStage = new LoadStage(game, Integer.parseInt(command[1]));
+            clientInterface.setStage(lStage);
+        } else if (command[0].equals("map")) {
+            System.out.println("1");
+            int w = Integer.parseInt(command[3]);
+            int h = Integer.parseInt(command[4]);
+            Cell[][] grid = new Cell[h][w];
+            Cell newCell = null;
+            for (int i = 5; i < command.length - 21; i++) {
+                switch (i % 3) {
+                    case 2:
+                        newCell = new Cell(-1, Integer.parseInt(command[i]));
+                        break;
+                    case 0:
+                        newCell.setRow(Integer.parseInt(command[i]));
+                        break;
+                    case 1:
+                        if (Boolean.parseBoolean(command[i]))
+                            newCell.open();
+                        else
+                            newCell.close();
+                        grid[newCell.getRow()][newCell.getCol()] = newCell;
+                        break;
+                }
+            }
+            PickupGun gun = null;
+            for (int i = command.length - 21; i < command.length; i++) {
+                switch ((i - (command.length - 21)) % 3) {
+                    case 0:
+                        gun = new PickupGun(-1, -1, command[i], game.getPlayers());
+                        break;
+                    case 1:
+                        gun.getAbsPos().setX(Double.parseDouble(command[i]));
+                        break;
+                    case 2:
+                        gun.getAbsPos().setY(Double.parseDouble(command[i]));
+                        game.addGun(gun);
+                        break;
+                }
+            }
+
+            game.loadMap(grid);
+            ((LoadStage) clientInterface.getCurStage()).goToPlay();
         } else if (command[0].equals("move")) {
-            // When a player from some Client is moved, local player must be moved accordingly
+            // When a entities from some Client is moved, local entities must be moved accordingly
             double xNew = Double.parseDouble(command[2]);
             double yNew = Double.parseDouble(command[3]);
             for (Player player : game.getPlayers()) {
@@ -72,27 +115,28 @@ public class ClientManager extends Client {
             {
                 if (player.getId() == id)
                 {
-                    game.addBullet(new Bullet(x, y, vx, vy,player));
+                    game.addBullet(x, y, vx, vy, player);
                 }
-                }
-
-        }
-        if (command[0].equals("remove")) {
+            }
+        } else if (command[0].equals("remove")) {
             for (Player player : game.getPlayers())
             {
                 if (player.getId() == Integer.parseInt(command[1]))
                 {
+                    player.getStage().removeActor(player.getWeapon());
+                    player.getStage().removeActor(player.getTag());
                     player.getStage().removeActor(player);
 
                 }
             }
+        } else if (command[0].equals("end")) {
+            game = null;
+            clientInterface.setStage(new QueueStage());
         }
     }
 
     @Override
-    public void onDisconnect(String s)
-    {
-
+    public void onDisconnect(String s) {
     }
 
     @Override

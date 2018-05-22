@@ -1,8 +1,10 @@
 package server;
 
 import game.Game;
+import game.map.Cell;
+import game.map.Map;
 import mayflower.net.Server;
-import player.Player;
+import entities.Player;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -24,7 +26,6 @@ public class ServerManager extends Server {
 
     @Override
     public void process(int i, String s) {
-
         String[] command = s.split(" ");
         if (command[0].equals("name")) {
             for (Player player : playerQueue) {
@@ -47,25 +48,27 @@ public class ServerManager extends Server {
                 }
             }
         } else if (command[0].equals("shoot")) {
+            double x = Double.parseDouble(command[1]);
+            double y = Double.parseDouble(command[2]);
+            double vx = Double.parseDouble(command[3]);
+            double vy = Double.parseDouble(command[4]);
+            int id = Integer.parseInt(command[5]);
+            Player shooter = null;
             for (Player player : game.getPlayers()) {
-                double x = Double.parseDouble(command[1]);
-                double y = Double.parseDouble(command[2]);
-                double vx = Double.parseDouble(command[3]);
-                double vy = Double.parseDouble(command[4]);
-                int id = Integer.parseInt(command[5]);
-                    send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy+ " " + id);
-
+                send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy+ " " + id);
+                System.out.println("CLIENT SENDING");
+                if (player.getId() == id)
+                    shooter = player;
             }
-
-        }
-        if(command[0].equals("removePlayer"))
+            game.addBullet(x, y, vx, vy, shooter);
+        } else if(command[0].equals("removePlayer"))
         {
             for (Player player : game.getPlayers()) {
                 //if (player.getId() == i) {
-                    //player.getStage().removeActor(player);
+                //player.getStage().removeActor(player);
                 //}
-               // else {
-                    send(player.getId(), "remove " + command[1]);
+                // else {
+                send(player.getId(), "remove " + command[1]);
                 //}
             }
         }
@@ -82,18 +85,24 @@ public class ServerManager extends Server {
     public void onExit(int i) {
         System.out.println(i + " disconnected.");
         Player toRemove = null;
-        for (Player player : playerQueue) {
-            if (player.getId() == i)
-                toRemove = player;
-        }
-        if (game != null)
+        if (game == null) {
+            for (Player player : playerQueue) {
+                if (player.getId() == i)
+                    toRemove = player;
+            }
+        } else {
+            for (Player player : game.getPlayers()) {
+                if (player.getId() == i)
+                    toRemove = player;
+            }
             game.kill(toRemove);
+        }
         serverInterface.removePlayer(toRemove);
         playerQueue.remove(toRemove);
 
     }
 
-    public List<Player> startGame() {
+    public List<Player> setupGame() {
         List<Player> gamePlayers = new ArrayList<>();
 
         while (playerQueue.size() > 0 && gamePlayers.size() <= 12) {
@@ -110,6 +119,24 @@ public class ServerManager extends Server {
         return gamePlayers;
     }
 
+    public void startGame() {
+        game.loadMap();
+        String command = getMapCommand(game.getMap());
+        for (Player player : game.getPlayers()) {
+            send(player.getId(), "map " + command);
+        }
+    }
+
+    public List<Player> endGame() {
+        List<Player> gamePlayers = game.getPlayers();
+        game = null;
+        for (Player player : gamePlayers) {
+            send(player.getId(), "end _");
+            playerQueue.add(player);
+        }
+        return gamePlayers;
+    }
+
     private String getGameCommand(List<Player> players) {
         StringBuilder builder = new StringBuilder("");
 
@@ -118,6 +145,30 @@ public class ServerManager extends Server {
             builder.append(player.getId()).append(" ");
             builder.append(player.getX()).append(" ");
             builder.append(player.getY()).append(" ");
+        }
+
+        return builder.toString();
+    }
+
+    private String getMapCommand(Map map) {
+        StringBuilder builder = new StringBuilder("");
+
+        builder.append(map.getAX()).append(" ");
+        builder.append(map.getAY()).append(" ");
+        builder.append(map.getGrid()[0].length).append(" ");
+        builder.append(map.getGrid().length).append(" ");
+        for (Cell[] cells : map.getGrid()) {
+            for (Cell cell : cells) {
+                builder.append(cell.getCol()).append(" ");
+                builder.append(cell.getRow()).append(" ");
+                builder.append(cell.isOpen()).append(" ");
+            }
+        }
+        String[] guns = {"LMG", "Pistol", "Railgun", "Rifle", "Shotgun", "SMG", "Sniper"};
+        for (String gun : guns) {
+            builder.append(gun).append(" ");
+            builder.append(Math.random() * 600).append(" ");
+            builder.append(Math.random() * 400).append(" ");
         }
 
         return builder.toString();
