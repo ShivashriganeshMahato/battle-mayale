@@ -100,7 +100,8 @@ public class Player extends Actor {
         Actor[] actors = getTouching();
         for (Actor a : actors) {
             if (a instanceof Bullet && ((Bullet) a).getPlayer().getId() != getId()) {
-                health -= 100;
+                health -= ((Bullet) a).getPlayer().getWeapon().getDamage();
+                System.out.println(health);
                 ((Bullet) a).kill();
             }
         }
