@@ -1,11 +1,13 @@
 package weapons;
 
+import entities.Player;
+
 public class Sniper extends Weapon
 {
 
-    public Sniper()
+    public Sniper(Player p)
     {
-        super(8, 5, 1, 20);
+        super(8, 5, 1, 20,p);
     }
 
     @Override

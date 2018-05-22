@@ -27,41 +27,50 @@ public class ServerManager extends Server {
     @Override
     public void process(int i, String s) {
         String[] command = s.split(" ");
-        switch (command[0]) {
-            case "name":
-                for (Player player : playerQueue) {
-                    if (player.getId() == i) {
-                        String newName = command[1];
-                        player.setName(newName);
-                        serverInterface.addPlayer(player);
-                        break;
-                    }
+        if (command[0].equals("name")) {
+            for (Player player : playerQueue) {
+                if (player.getId() == i) {
+                    String newName = command[1];
+                    player.setName(newName);
+                    serverInterface.addPlayer(player);
+                    break;
                 }
-                break;
-            case "move":
-                double xNew = Double.parseDouble(command[1]);
-                double yNew = Double.parseDouble(command[2]);
+            }
+        } else if (command[0].equals("move")) {
+            double xNew = Double.parseDouble(command[1]);
+            double yNew = Double.parseDouble(command[2]);
 
-                for (Player player : game.getPlayers()) {
-                    if (player.getId() == i) {
-                        player.setPosition(xNew, yNew);
-                    } else {
-                        send(player.getId(), "move " + i + " " + xNew + " " + yNew);
-                    }
+            for (Player player : game.getPlayers()) {
+                if (player.getId() == i) {
+                    player.setPosition(xNew, yNew);
+                } else {
+                    send(player.getId(), "move " + i + " " + xNew + " " + yNew);
                 }
-                break;
-            case "shoot":
-                System.out.println("RECEIVED");
-                double x = Double.parseDouble(command[1]);
-                double y = Double.parseDouble(command[2]);
-                double vx = Double.parseDouble(command[3]);
-                double vy = Double.parseDouble(command[4]);
-                game.addBullet(x, y, vx, vy);
-                for (Player player : game.getPlayers()) {
-                    send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy);
-                    System.out.println("CLIENT SENDING");
-                }
-                break;
+            }
+        } else if (command[0].equals("shoot")) {
+            double x = Double.parseDouble(command[1]);
+            double y = Double.parseDouble(command[2]);
+            double vx = Double.parseDouble(command[3]);
+            double vy = Double.parseDouble(command[4]);
+            int id = Integer.parseInt(command[5]);
+            Player shooter = null;
+            for (Player player : game.getPlayers()) {
+                send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy+ " " + id);
+                System.out.println("CLIENT SENDING");
+                if (player.getId() == id)
+                    shooter = player;
+            }
+            game.addBullet(x, y, vx, vy, shooter);
+        } else if(command[0].equals("removePlayer"))
+        {
+            for (Player player : game.getPlayers()) {
+                //if (player.getId() == i) {
+                //player.getStage().removeActor(player);
+                //}
+                // else {
+                send(player.getId(), "remove " + command[1]);
+                //}
+            }
         }
     }
 

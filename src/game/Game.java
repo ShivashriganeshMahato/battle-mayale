@@ -84,8 +84,8 @@ public class Game {
         client.send(commandToSend);
     }
 
-    public void addBullet(double x, double y, double vx, double vy) {
-        bullets.add(new Bullet(x, y, vx, vy));
+    public void addBullet(double x, double y, double vx, double vy, Player player) {
+        bullets.add(new Bullet(x, y, vx, vy, player));
     }
 
     public void removeBullet(Bullet bullet) {

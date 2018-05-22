@@ -27,6 +27,7 @@ public class Player extends Actor {
     private Vector2 absPos;
     private Vector2 velocity;
     private Weapon weapon;
+    private boolean hasDied;
     private boolean[] stopped;
     private int pickupTimer;
     private boolean canPickup;
@@ -44,9 +45,10 @@ public class Player extends Actor {
         setPosition(x, y);
         tag = new Text(name, Color.WHITE);
         absPos = new Vector2(x, y);
+        weapon = new Pistol(this);
+        hasDied = false;
         velocity = new Vector2(0, 0);
-        weapon = new Pistol();
-        stopped = new boolean[] {false, false, false, false};
+        stopped = new boolean[]{false, false, false, false};
         pickupTimer = 0;
         canPickup = true;
     }
@@ -90,7 +92,25 @@ public class Player extends Actor {
 
     public void update() {
         velocity.zero();
-        if (canMove) {
+
+        if (!isAlive) {
+            health += 10000000;
+            // getStage().removeActor(weapon);
+            isAlive = true;
+        }
+        Actor[] actors = getTouching();
+        for (Actor a : actors) {
+            if (a instanceof Bullet && ((Bullet) a).getPlayer().getId() != getId()) {
+                health -= weapon.getDamage();
+                ((Bullet) a).kill();
+            }
+        }
+        if (health <= 0) {
+            isAlive = false;
+            hasDied = true;
+        }
+
+        if (canMove && !hasDied) {
             didJustMove = false;
             try {
                 keyListener = getKeyboard();
@@ -127,6 +147,7 @@ public class Player extends Actor {
                 System.out.println("Mayflower is bad");
             }
         }
+
         unstop();
 
         if (!canPickup)
@@ -143,6 +164,14 @@ public class Player extends Actor {
 
     public boolean didJustMove() {
         return didJustMove;
+    }
+
+    public boolean isStillAlive() {
+        return isAlive;
+    }
+
+    public boolean isHasDied() {
+        return hasDied;
     }
 
     public Text getTag() {
@@ -199,19 +228,19 @@ public class Player extends Actor {
     private Weapon getWeapon(String type) {
         switch (type) {
             case "LMG":
-                return new LMG();
+                return new LMG(this);
             case "Pistol":
-                return new Pistol();
+                return new Pistol(this);
             case "Railgun":
-                return new RailGun();
+                return new RailGun(this);
             case "Rifle":
-                return new Rifle();
+                return new Rifle(this);
             case "Shotgun":
-                return new Shotgun();
+                return new Shotgun(this);
             case "SMG":
-                return new SMG();
+                return new SMG(this);
             case "Sniper":
-                return new Sniper();
+                return new Sniper(this);
             default:
                 return null;
         }

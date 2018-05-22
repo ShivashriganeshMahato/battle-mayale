@@ -64,6 +64,10 @@ public class GameStage extends Stage {
 
     @Override
     public void update() {
+        if(!user.isStillAlive())
+        {
+            game.sendCommand("removePlayer" + " " + userID);
+        }
         if (user.didJustMove())
             game.sendCommand("move " + user.getAbsX() + " " + user.getAbsY());
         double dAx = -(user.getAbsX() - 400);
