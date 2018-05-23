@@ -64,7 +64,7 @@ public class Player extends Actor {
     }
 
     public Player(String name, int id) {
-        this(name, id, 0, 0, true);
+        this(name, id, Math.random() * 7000 + 500, Math.random() * 5000 + 500, true);
     }
 
     public String getName() {
@@ -257,6 +257,10 @@ public class Player extends Actor {
 
     public void setPressingE(boolean isPressingE) {
         this.isPressingE = isPressingE;
+    }
+
+    public void hurt(int damage) {
+        health -= damage;
     }
 
     private Weapon getWeaponFromType(String type) {

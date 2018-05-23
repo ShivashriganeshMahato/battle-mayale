@@ -64,10 +64,10 @@ public class GameStage extends Stage {
         addActor(ammoLabel, 20, 50);
 
         storm = new Storm[] {
-                new Storm(0, -4000, 0, 2),
-                new Storm(-4000, 0, 2, 0),
-                new Storm(10000, 0, 0, -2),
-                new Storm(12000, 0, -2, 0)
+                new Storm(0, -4000, 0, 2, game.getPlayers()),
+                new Storm(-4000, 0, 2, 0, game.getPlayers()),
+                new Storm(10000, 0, 0, -2, game.getPlayers()),
+                new Storm(12000, 0, -2, 0, game.getPlayers())
         };
         for (Storm _storm : storm) {
             addActor(_storm, (int) _storm.getAX(), (int) _storm.getAY());
