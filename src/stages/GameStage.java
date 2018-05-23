@@ -2,6 +2,7 @@ package stages;
 
 import entities.PickupGun;
 import entities.Player;
+import entities.Storm;
 import entities.Tree;
 import game.Game;
 import mayflower.Stage;
@@ -42,6 +43,25 @@ public class GameStage extends Stage {
             addActor(player.getTag(), player.getX(), player.getY() - 10);
             addActor(player.getWeapon(), player.getX(), player.getY());
         }
+        for(int i = 0; i < 4; i++)
+        {
+            if(i == 0)
+            {
+                addActor(new Storm(),0,0);
+            }
+            else if(i == 1)
+            {
+                addActor(new Storm(),300,0);
+            }
+            else if(i == 2)
+            {
+                addActor(new Storm(),300,300);
+            }
+            else
+            {
+                addActor(new Storm(),0,300);
+            }
+        }
         addActor(user, 5, 5);
 
         for (Tree tree : game.getTrees()) {
@@ -63,7 +83,7 @@ public class GameStage extends Stage {
     @Override
     public void update() {
         if (!user.isStillAlive()) {
-            game.sendCommand("removePlayer" + " " + userID);
+            game.sendCommand("removePlayer" + " " + userID + " " +user.getScore());
         }
         if (user.didJustMove())
             game.sendCommand("move " + user.getAbsX() + " " + user.getAbsY());

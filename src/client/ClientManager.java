@@ -2,6 +2,7 @@ package client;
 
 import entities.PickupGun;
 import entities.Player;
+import entities.Storm;
 import game.Game;
 import game.map.Cell;
 import mayflower.net.Client;
@@ -45,6 +46,7 @@ public class ClientManager extends Client {
                         players.add(newPlayer);
                         break;
                 }
+
             }
 
             game = new Game(players, this);
@@ -116,19 +118,25 @@ public class ClientManager extends Client {
             }
         } else if (command[0].equals("remove")) {
             int id = Integer.parseInt(command[1]);
-            for (Player player : game.getPlayers()) {
+            for (Player player : game.getPlayers())
+            {
+
                 if (player.getId() == id) {
                     player.getStage().removeActor(player.getWeapon());
                     player.getStage().removeActor(player.getTag());
                     player.getStage().removeActor(player);
                     game.getAlive().remove(player);
+
                 }
             }
             if (((GameStage) clientInterface.getCurStage()).getUserID() == id) {
                 clientInterface.setStage(new GameOverStage(game.getAlive().size() + 1));
             } else {
                 if (game.getAlive().size() == 1)
+                {
+                    game.getAlive().get(0).writeScores(game.getAlive().get(0).getScore(),"txttxt");
                     clientInterface.setStage(new WinStage());
+                }
             }
         } else if (command[0].equals("end")) {
             game = null;
@@ -142,19 +150,19 @@ public class ClientManager extends Client {
 
     @Override
     public void onConnect() {
-//        String name;
-//
-//        do {
-//            String output = JOptionPane.showInputDialog("What is your name?");
-//            if (output.contains(" ") || output.length() == 0) {
-//                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
-//                continue;
-//            }
-//            name = output;
-//            break;
-//        } while (true);
-//
-//        send("name " + name);
-         send("name Joe");
+       String name;
+
+        do {
+            String output = JOptionPane.showInputDialog("What is your name?");
+            if (output.contains(" ") || output.length() == 0) {
+                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
+                continue;
+            }
+            name = output;
+            break;
+        } while (true);
+
+      send("name " + name);
+         //send("name Joe");
     }
 }

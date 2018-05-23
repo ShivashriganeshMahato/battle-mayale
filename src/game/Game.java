@@ -3,6 +3,7 @@ package game;
 import client.ClientManager;
 import entities.PickupGun;
 import entities.Player;
+import entities.Storm;
 import entities.Tree;
 import game.map.Cell;
 import game.map.Map;
@@ -47,6 +48,8 @@ public class Game {
         map = new Map(0, 0, grid);
         genTrees(grid);
     }
+
+
 
     private void genTrees(Cell[][] grid) {
         for (Cell[] cells : grid) {

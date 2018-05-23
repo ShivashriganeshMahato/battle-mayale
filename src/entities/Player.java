@@ -6,6 +6,9 @@ import mayflower.Text;
 import util.Vector2;
 import weapons.*;
 
+import javax.imageio.IIOException;
+import java.io.*;
+
 import java.awt.*;
 import java.util.ConcurrentModificationException;
 
@@ -13,6 +16,8 @@ import java.util.ConcurrentModificationException;
  * @author Shivashriganesh Mahato
  */
 public class Player extends Actor {
+    private int score;
+    public boolean winner;
     private String name;
     private int id;
     private int health;
@@ -33,6 +38,8 @@ public class Player extends Actor {
     private boolean canPickup;
 
     public Player(String name, int id, double x, double y, boolean canMove) {
+        score = 0;
+        winner = false;
         this.name = name;
         this.id = id;
         this.canMove = canMove;
@@ -92,7 +99,10 @@ public class Player extends Actor {
 
     public void update() {
         velocity.zero();
-
+        if(winner)
+        {
+            writeScores(score);
+        }
         if (!isAlive) {
             health += 10000000;
             isAlive = true;
@@ -103,11 +113,15 @@ public class Player extends Actor {
                 health -= ((Bullet) a).getPlayer().getWeapon().getDamage();
                 ((Bullet) a).kill();
             }
+            if (health <= 0)
+            {
+                ((Bullet) a).getPlayer().playerAddScore();
+                isAlive = false;
+                hasDied = true;
+
+            }
         }
-        if (health <= 0) {
-            isAlive = false;
-            hasDied = true;
-        }
+
 
         if (canMove && !hasDied) {
             didJustMove = false;
@@ -163,6 +177,10 @@ public class Player extends Actor {
 
     public boolean didJustMove() {
         return didJustMove;
+    }
+    public void isWinner()
+    {
+        winner = true;
     }
 
     public boolean isStillAlive() {
@@ -246,7 +264,45 @@ public class Player extends Actor {
                 return null;
         }
     }
+    public void playerAddScore()
+    {
+        score++;
+    }
 
+    public int getScore()
+    {
+        return score;
+    }
+    public void writeScores(int bore)
+    {
+        try
+        {
+            FileWriter fw = new FileWriter("scores.txt",true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter cut = new PrintWriter(bw,true);
+            cut.println(getName() + " got " + bore + " kills!");
+            cut.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
+    public void writeScores(int bore, String message)
+    {
+        try
+        {
+            FileWriter fw = new FileWriter("scores.txt",true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter cut = new PrintWriter(bw,true);
+            cut.println(getName() + " got " + bore + " kills! "  + getName() + " was a winner!");
+            cut.close();
+        }
+        catch(IOException e)
+        {
+            e.printStackTrace();
+        }
+    }
     public enum Direction {
         LEFT(0), UP(1), RIGHT(2), DOWN(3);
 

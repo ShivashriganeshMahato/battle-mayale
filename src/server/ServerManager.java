@@ -64,8 +64,10 @@ public class ServerManager extends Server {
             Player toRemove = null;
             for (Player player : game.getPlayers()) {
                 send(player.getId(), "remove " + command[1]);
-                if (player.getId() == Integer.parseInt(command[1]))
+                if (player.getId() == Integer.parseInt(command[1])) {
                     toRemove = player;
+                   player.writeScores(Integer.parseInt(command[2]));
+                }
             }
             game.getAlive().remove(toRemove);
         }
