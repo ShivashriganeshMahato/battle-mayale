@@ -17,7 +17,7 @@ public class PickupGun extends Actor {
         this.type = type;
         this.players = players;
         absPos = new Vector2(x, y);
-        setPicture("images/smallMayrio.png");
+        setPicture("images/" + type.toLowerCase() + ".png");
     }
 
     @Override
@@ -25,6 +25,7 @@ public class PickupGun extends Actor {
         for (Player player : players) {
             if (isTouching(player)) {
                 setType(player.pickUp(type));
+                setPicture("images/" + type.toLowerCase() + ".png");
             }
         }
     }

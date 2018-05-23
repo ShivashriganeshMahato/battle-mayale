@@ -29,8 +29,8 @@ public class GameStage extends Stage {
         this.game = game;
         this.userID = userID;
 
-        setBackgroundColor(Color.GREEN);
-        addActor(game.getMap(), 0, 0);
+        setBackgroundColor(new Color(19, 54, 84));
+        addActor(game.getMap(), 4000, 3000);
 
         for (Player player : game.getPlayers()) {
             if (player.getId() != userID) {
@@ -55,8 +55,8 @@ public class GameStage extends Stage {
 
         bulletCount = 0;
 
-        gunLabel = new Text("");
-        ammoLabel = new Text("");
+        gunLabel = new Text("", Color.WHITE);
+        ammoLabel = new Text("", Color.WHITE);
         addActor(gunLabel, 20, 20);
         addActor(ammoLabel, 20, 50);
     }
@@ -108,6 +108,7 @@ public class GameStage extends Stage {
                 double ay = gun.getAbsY();
                 gun.setPosition(ax + dAx, ay + dAy);
             }
+            System.out.println(game.getMap().getAX() + " " + game.getMap().getAY());
             game.getMap().setPosition(game.getMap().getAX() + dAx, game.getMap().getAY() + dAy);
         } catch (ConcurrentModificationException e) {
             System.out.println("Java is bad");

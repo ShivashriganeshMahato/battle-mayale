@@ -148,19 +148,19 @@ public class ClientManager extends Client {
 
     @Override
     public void onConnect() {
-//        String name;
-//
-//        do {
-//            String output = JOptionPane.showInputDialog("What is your name?");
-//            if (output.contains(" ") || output.length() == 0) {
-//                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
-//                continue;
-//            }
-//            name = output;
-//            break;
-//        } while (true);
-//
-//        send("name " + name);
-         send("name Joe");
+        String name;
+
+        do {
+            String output = JOptionPane.showInputDialog("What is your name?");
+            if (output.contains(" ") || output.length() == 0) {
+                JOptionPane.showMessageDialog(null, "Your name cannot contain spaces");
+                continue;
+            }
+            name = output;
+            break;
+        } while (true);
+
+        send("name " + name);
+//         send("name Joe");
     }
 }

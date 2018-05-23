@@ -39,16 +39,20 @@ public class Tree extends Actor {
                     player.setStopped(Player.Direction.UP, true);
             }
         }
-        List<Bullet> toRemove = new ArrayList<>();
-        for (Bullet bullet : bullets) {
-            if (bullet.getAbsPos().getX() + 8 >= getAbsX() - 40 &&
-                    bullet.getAbsPos().getX() - 8 <= getAbsX() + 40 &&
-                    bullet.getAbsPos().getY() + 16 >= getAbsY() &&
-                    bullet.getAbsPos().getY() <= getAbsY() + 135) {
-                bullet.kill();
+        try {
+            List<Bullet> toRemove = new ArrayList<>();
+            for (Bullet bullet : bullets) {
+                if (bullet.getAbsPos().getX() + 8 >= getAbsX() - 40 &&
+                        bullet.getAbsPos().getX() - 8 <= getAbsX() + 40 &&
+                        bullet.getAbsPos().getY() + 16 >= getAbsY() &&
+                        bullet.getAbsPos().getY() <= getAbsY() + 135) {
+                    bullet.kill();
+                }
             }
+            bullets.removeAll(toRemove);
+        } catch (NullPointerException e) {
+            System.out.println("Best way to debug");
         }
-        bullets.removeAll(toRemove);
     }
 
     public double getAbsX() {

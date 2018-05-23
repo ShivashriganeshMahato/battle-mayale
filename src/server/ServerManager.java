@@ -69,7 +69,6 @@ public class ServerManager extends Server {
             }
             game.getAlive().remove(toRemove);
         } else if (command[0].equals("epress")) {
-            System.out.println("opwesdo");
             for (Player player : game.getPlayers()) {
                 send(player.getId(), s);
             }
@@ -169,8 +168,8 @@ public class ServerManager extends Server {
         String[] guns = {"LMG", "Pistol", "Railgun", "Rifle", "Shotgun", "SMG", "Sniper"};
         for (String gun : guns) {
             builder.append(gun).append(" ");
-            builder.append(Math.random() * 600).append(" ");
-            builder.append(Math.random() * 400).append(" ");
+            builder.append(Math.random() * 8000).append(" ");
+            builder.append(Math.random() * 6000).append(" ");
         }
 
         return builder.toString();

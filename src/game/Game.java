@@ -39,12 +39,12 @@ public class Game {
     }
 
     public void loadMap() {
-        map = new Map(0, 0, 600, 400);
+        map = new Map(4000, 3000, 8000, 6000);
         genTrees(map.getGrid());
     }
 
     public void loadMap(Cell[][] grid) {
-        map = new Map(0, 0, grid);
+        map = new Map(4000, 3000, grid);
         genTrees(grid);
     }
 

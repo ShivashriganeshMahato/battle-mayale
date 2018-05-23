@@ -8,7 +8,7 @@ import util.Vector2;
  */
 public class Map extends Actor {
     private final double TreeChance = .1;
-    private final String image = "images/gudmap_small.png";
+    private final String image = "images/map.png";
 
     private Vector2 absPos;
     private Cell[][] grid;
