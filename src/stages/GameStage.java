@@ -2,6 +2,7 @@ package stages;
 
 import entities.PickupGun;
 import entities.Player;
+import entities.Storm;
 import entities.Tree;
 import game.Game;
 import mayflower.Stage;
@@ -21,6 +22,8 @@ public class GameStage extends Stage {
     private Game game;
     private Player user;
     private int bulletCount;
+    private Storm[] storm;
+    private int stormCounter;
 
     private Text gunLabel;
     private Text ammoLabel;
@@ -59,10 +62,31 @@ public class GameStage extends Stage {
         ammoLabel = new Text("", Color.WHITE);
         addActor(gunLabel, 20, 20);
         addActor(ammoLabel, 20, 50);
+
+        storm = new Storm[] {
+                new Storm(0, -4000, 0, 2),
+                new Storm(-4000, 0, 2, 0),
+                new Storm(10000, 0, 0, -2),
+                new Storm(12000, 0, -2, 0)
+        };
+        for (Storm _storm : storm) {
+            addActor(_storm, (int) _storm.getAX(), (int) _storm.getAY());
+        }
+        stormCounter = 0;
     }
 
     @Override
     public void update() {
+        stormCounter++;
+        if (stormCounter % 1000 == 0) {
+            if ((stormCounter / 1000) % 2 == 0) {
+                for (Storm _storm : storm)
+                    _storm.start();
+            } else {
+                for (Storm _storm : storm)
+                    _storm.end();
+            }
+        }
         if (!user.isStillAlive()) {
             game.sendCommand("removePlayer" + " " + userID);
         }
@@ -108,7 +132,11 @@ public class GameStage extends Stage {
                 double ay = gun.getAbsY();
                 gun.setPosition(ax + dAx, ay + dAy);
             }
-            System.out.println(game.getMap().getAX() + " " + game.getMap().getAY());
+            for (Storm _storm : storm) {
+                double ax = _storm.getAX();
+                double ay = _storm.getAY();
+                _storm.setPosition(ax + dAx, ay + dAy);
+            }
             game.getMap().setPosition(game.getMap().getAX() + dAx, game.getMap().getAY() + dAy);
         } catch (ConcurrentModificationException e) {
             System.out.println("Java is bad");
