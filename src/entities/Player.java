@@ -100,7 +100,7 @@ public class Player extends Actor {
         Actor[] actors = getTouching();
         for (Actor a : actors) {
             if (a instanceof Bullet && ((Bullet) a).getPlayer().getId() != getId()) {
-                health -= 100;
+                health -= weapon.getDamage();
                 ((Bullet) a).kill();
             }
         }
@@ -214,7 +214,9 @@ public class Player extends Actor {
         try {
             if (keyListener.isKeyPressed("E") && canPickup) {
                 String curType = weapon.getName();
-                weapon = getWeapon(type);
+                getStage().removeActor(weapon);
+                weapon = getWeaponFromType(type);
+                getStage().addActor(weapon, getX(), getY());
                 canPickup = false;
                 return curType;
             }
@@ -224,7 +226,7 @@ public class Player extends Actor {
         return type;
     }
 
-    private Weapon getWeapon(String type) {
+    private Weapon getWeaponFromType(String type) {
         switch (type) {
             case "LMG":
                 return new LMG(this);

@@ -23,7 +23,7 @@ public abstract class Weapon extends Actor {
     private Vector2 absPos;
     private Player player;
 
-    public Weapon(int bs, int ms, int b, int bd, Player p) {
+    public Weapon(int bs, int ms, int b, int bd, Player p, String sprite) {
         player = p;
         bulletSpeed = bs;
         magSize = ms;
@@ -32,19 +32,27 @@ public abstract class Weapon extends Actor {
         bulletDamage = bd;
         mouse = false;
         timer = new Timer();
-        setPicture("images/mayrio.png");
+        setPicture(sprite);
         msgToSend = null;
         absPos = new Vector2(0, 0);
     }
 
+    public Weapon(int bs, int ms, int b, int bd, Player p) {
+        this(bs, ms, b, bd, p, "images/mayrio.png");
+    }
+
     public void update() {
-        mouseListener = getMouse();
-        mousePos = new Vector2(mouseListener.getX(), mouseListener.getY());
-        if (mouseListener.isButtonPressed() && !player.isHasDied()) {
-            this.shoot(mousePos);
-        }
-        if (bulletsLeft == 0 && timer.getTimePassed() >= 3000) {
-            bulletsLeft = magSize;
+        try {
+            mouseListener = getMouse();
+            mousePos = new Vector2(mouseListener.getX(), mouseListener.getY());
+            if (mouseListener.isButtonPressed() && !player.isHasDied()) {
+                this.shoot(mousePos);
+            }
+            if (bulletsLeft == 0 && timer.getTimePassed() >= 3000) {
+                bulletsLeft = magSize;
+            }
+        } catch (NullPointerException e) {
+            System.out.println("Mayflower is bad 2.0.");
         }
     }
 
