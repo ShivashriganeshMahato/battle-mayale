@@ -56,7 +56,6 @@ public class ServerManager extends Server {
             Player shooter = null;
             for (Player player : game.getPlayers()) {
                 send(player.getId(), "shoot " + x + " " + y + " " + vx + " " + vy + " " + id);
-                System.out.println("CLIENT SENDING");
                 if (player.getId() == id)
                     shooter = player;
             }
