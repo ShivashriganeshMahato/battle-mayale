@@ -133,6 +133,12 @@ public class ClientManager extends Client {
         } else if (command[0].equals("end")) {
             game = null;
             clientInterface.setStage(new QueueStage());
+        } else if (command[0].equals("epress")) {
+            System.out.println(Integer.parseInt(command[1]));
+            for (Player player : game.getPlayers()) {
+                if (player.getId() == Integer.parseInt(command[1]))
+                    player.setPressingE(true);
+            }
         }
     }
 

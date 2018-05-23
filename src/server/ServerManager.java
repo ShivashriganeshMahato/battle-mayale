@@ -68,6 +68,11 @@ public class ServerManager extends Server {
                     toRemove = player;
             }
             game.getAlive().remove(toRemove);
+        } else if (command[0].equals("epress")) {
+            System.out.println("opwesdo");
+            for (Player player : game.getPlayers()) {
+                send(player.getId(), s);
+            }
         }
     }
 

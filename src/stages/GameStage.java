@@ -41,6 +41,7 @@ public class GameStage extends Stage {
             addActor(player, player.getX(), player.getY());
             addActor(player.getTag(), player.getX(), player.getY() - 10);
             addActor(player.getWeapon(), player.getX(), player.getY());
+            addActor(player.getHealthTag(), player.getX(), player.getY() - 10);
         }
         addActor(user, 5, 5);
 
@@ -82,7 +83,8 @@ public class GameStage extends Stage {
                 double ax = player.getAbsX();
                 double ay = player.getAbsY();
                 player.setPosition(ax + dAx, ay + dAy);
-                player.getTag().setPosition(ax + dAx - 30, ay + dAy - 65);
+                player.getTag().setPosition(ax + dAx - 25, ay + dAy - 75);
+                player.getHealthTag().setPosition(ax + dAx - 30, ay + dAy - 95);
                 player.getWeapon().setPosition(ax + dAx, ay + dAy);
             }
             List<Bullet> toRemove = new ArrayList<>();

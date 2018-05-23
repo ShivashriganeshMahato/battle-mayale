@@ -131,4 +131,8 @@ public abstract class Weapon extends Actor {
     public int getDamage() {
         return bulletDamage;
     }
+
+    public void setMsgToSend(String msgToSend) {
+        this.msgToSend = msgToSend;
+    }
 }

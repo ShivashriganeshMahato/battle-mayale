@@ -31,6 +31,8 @@ public class Player extends Actor {
     private boolean[] stopped;
     private int pickupTimer;
     private boolean canPickup;
+    private boolean isPressingE;
+    private Text healthTag;
 
     public Player(String name, int id, double x, double y, boolean canMove) {
         this.name = name;
@@ -38,6 +40,7 @@ public class Player extends Actor {
         this.canMove = canMove;
         didJustMove = false;
         health = 100;
+        healthTag = new Text("100");
         isAlive = true;
         fireSpeed = 0;
         ammo = 0;
@@ -51,6 +54,7 @@ public class Player extends Actor {
         stopped = new boolean[]{false, false, false, false};
         pickupTimer = 0;
         canPickup = true;
+        isPressingE = false;
     }
 
     public Player(String name, int id, double x, double y) {
@@ -92,6 +96,7 @@ public class Player extends Actor {
 
     public void update() {
         velocity.zero();
+        healthTag.setText(Integer.toString(health));
 
         if (!isAlive) {
             health += 10000000;
@@ -105,6 +110,7 @@ public class Player extends Actor {
             }
         }
         if (health <= 0) {
+            System.out.println("DEAD");
             isAlive = false;
             hasDied = true;
         }
@@ -142,6 +148,10 @@ public class Player extends Actor {
                     velocity.add(1, 0);
                     didJustMove = true;
                 }
+                if (keyListener.isKeyPressed("E")) {
+                    isPressingE = true;
+                    weapon.setMsgToSend("epress " + id);
+                }
             } catch (ConcurrentModificationException e) {
                 System.out.println("Mayflower is bad");
             }
@@ -151,7 +161,7 @@ public class Player extends Actor {
 
         if (!canPickup)
             pickupTimer++;
-        if (pickupTimer > 25) {
+        if (pickupTimer > 100) {
             pickupTimer = 0;
             canPickup = true;
         }
@@ -175,6 +185,10 @@ public class Player extends Actor {
 
     public Text getTag() {
         return tag;
+    }
+
+    public Text getHealthTag() {
+        return healthTag;
     }
 
     public double getAbsX() {
@@ -212,18 +226,24 @@ public class Player extends Actor {
 
     public String pickUp(String type) {
         try {
-            if (keyListener.isKeyPressed("E") && canPickup) {
+            if (isPressingE && canPickup) {
+                System.out.println("oieihs");
                 String curType = weapon.getName();
                 getStage().removeActor(weapon);
                 weapon = getWeaponFromType(type);
                 getStage().addActor(weapon, getX(), getY());
                 canPickup = false;
+                isPressingE = false;
                 return curType;
             }
         } catch (NullPointerException e) {
             System.out.println("Java is bad 2.0.");
         }
         return type;
+    }
+
+    public void setPressingE(boolean isPressingE) {
+        this.isPressingE = isPressingE;
     }
 
     private Weapon getWeaponFromType(String type) {
