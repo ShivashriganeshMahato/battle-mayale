@@ -11,4 +11,9 @@ public class RailGun extends Weapon {
     public String getName() {
         return "Railgun";
     }
+
+    @Override
+    public void resetPicture() {
+        setPicture("images/railgun.png");
+    }
 }

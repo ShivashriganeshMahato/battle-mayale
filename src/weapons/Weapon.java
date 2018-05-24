@@ -111,6 +111,8 @@ public abstract class Weapon extends Actor {
 
     public abstract String getName();
 
+    public abstract void resetPicture();
+
     public String getInfo() {
         return getName() + "   Damage: " + bulletDamage;
     }

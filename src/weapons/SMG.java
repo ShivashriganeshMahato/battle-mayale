@@ -11,4 +11,9 @@ public class SMG extends Weapon {
     public String getName() {
         return "SMG";
     }
+
+    @Override
+    public void resetPicture() {
+        setPicture("images/smg.png");
+    }
 }

@@ -168,6 +168,7 @@ public class Player extends Actor {
                     velocity.add(-Speed, 0);
                     didJustMove = true;
                     getPicture().flipHorizontal();
+                    weapon.getPicture().flipHorizontal();
                 }
                 if (keyListener.isKeyPressed("D") && !stopped[Direction.RIGHT.ind]) {
                     //weapon.move(1,"EAST");
@@ -176,6 +177,7 @@ public class Player extends Actor {
                     velocity.add(Speed, 0);
                     didJustMove = true;
                     setPicture("images/player.png");
+                    weapon.resetPicture();
                 }
                 if (keyListener.isKeyPressed("E")) {
                     isPressingE = true;
