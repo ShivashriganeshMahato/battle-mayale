@@ -7,6 +7,10 @@ import util.Vector2;
 import weapons.*;
 
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ConcurrentModificationException;
 
 /**
@@ -17,6 +21,8 @@ public class Player extends Actor {
 
     private String name;
     private int id;
+    private int score;
+    public boolean winner;
     private int health;
     private int ammo;
     private int fireSpeed;
@@ -41,6 +47,8 @@ public class Player extends Actor {
         this.id = id;
         this.canMove = canMove;
         didJustMove = false;
+        score = 0;
+        winner = false;
         health = 100;
         healthTag = new Text("100", Color.WHITE);
         isAlive = true;
@@ -98,6 +106,9 @@ public class Player extends Actor {
 
     public void update() {
         velocity.zero();
+        if (winner) {
+            writeScores(score);
+        }
         healthTag.setText(Integer.toString(health));
 
         if (!isAlive) {
@@ -109,6 +120,11 @@ public class Player extends Actor {
             if (a instanceof Bullet && ((Bullet) a).getPlayer().getId() != getId()) {
                 health -= ((Bullet) a).getPlayer().getWeapon().getDamage();
                 ((Bullet) a).kill();
+            }
+            if (a instanceof Bullet && health <= 0) {
+                ((Bullet) a).getPlayer().playerAddScore();
+                isAlive = false;
+                hasDied = false;
             }
         }
         if (health <= 0) {
@@ -194,6 +210,42 @@ public class Player extends Actor {
 
     public boolean isHasDied() {
         return hasDied;
+    }
+
+    public void isWinner() {
+        winner = true;
+    }
+
+    public void playerAddScore() {
+        score++;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void writeScores(int bore) {
+        try {
+            FileWriter fw = new FileWriter("scores.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter cut = new PrintWriter(bw, true);
+            cut.println(getName() + " got " + bore + " kills!");
+            cut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void writeScores(int bore, String message) {
+        try {
+            FileWriter fw = new FileWriter("scores.txt", true);
+            BufferedWriter bw = new BufferedWriter(fw);
+            PrintWriter cut = new PrintWriter(bw, true);
+            cut.println(getName() + " got " + bore + " kills! " + getName() + " was a winner!");
+            cut.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public Text getTag() {

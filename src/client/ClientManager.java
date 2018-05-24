@@ -127,8 +127,10 @@ public class ClientManager extends Client {
             if (((GameStage) clientInterface.getCurStage()).getUserID() == id) {
                 clientInterface.setStage(new GameOverStage(game.getAlive().size() + 1));
             } else {
-                if (game.getAlive().size() == 1)
+                if (game.getAlive().size() == 1) {
+                    game.getAlive().get(0).writeScores(game.getAlive().get(0).getScore(), "txttxt");
                     clientInterface.setStage(new WinStage());
+                }
             }
         } else if (command[0].equals("end")) {
             game = null;

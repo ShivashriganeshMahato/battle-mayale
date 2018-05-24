@@ -90,7 +90,7 @@ public class GameStage extends Stage {
             }
         }
         if (!user.isStillAlive()) {
-            game.sendCommand("removePlayer" + " " + userID);
+            game.sendCommand("removePlayer" + " " + userID + " " + user.getScore());
         }
         if (user.didJustMove())
             game.sendCommand("move " + user.getAbsX() + " " + user.getAbsY());
