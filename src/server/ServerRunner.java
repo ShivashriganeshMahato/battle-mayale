@@ -22,11 +22,9 @@ public class ServerRunner {
             isValid = true;
         } while (!isValid);
 
-
         if (port < 0)
             System.exit(0);
         else
             new ServerInterface(port);
-//        new ServerInterface(1234);
     }
 }

@@ -6,6 +6,7 @@ import game.map.Cell;
 import game.map.Map;
 import mayflower.net.Server;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -18,7 +19,7 @@ public class ServerManager extends Server {
 
     public ServerManager(int port, ServerInterface serverInterface) {
         super(port);
-        System.out.println(getIP());
+        JOptionPane.showMessageDialog(null, "The server IP is " + getIP());
         playerQueue = new LinkedList<>();
         this.serverInterface = serverInterface;
         game = null;

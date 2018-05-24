@@ -13,6 +13,7 @@ public class Storm extends Actor {
     private Vector2 absPos;
     private Vector2 velocity;
     private List<Player> players;
+    private int damageTimer;
 
     public Storm(double x, double y, double vx, double vy, List<Player> players) {
         setPicture("images/storm.png");
@@ -20,15 +21,20 @@ public class Storm extends Actor {
         velocity = new Vector2(vx, vy);
         flag = false;
         this.players = players;
+        damageTimer = 0;
     }
 
     @Override
     public void update() {
         if (flag)
             absPos.add(velocity);
-        for (Player player : players)
-            if (player.isTouching(this))
-                player.hurt(1);
+        for (Player player : players) {
+            if (player.isTouching(this)) {
+                damageTimer++;
+                if (damageTimer % 50 == 0)
+                    player.hurt(2);
+            }
+        }
     }
 
     public Vector2 getAbsPos() {
@@ -49,5 +55,9 @@ public class Storm extends Actor {
 
     public void end() {
         flag = false;
+    }
+
+    public Vector2 getVelocity() {
+        return velocity;
     }
 }

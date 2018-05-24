@@ -39,8 +39,8 @@ public class ServerInterface extends Stage {
             playBtn.enable();
             endBtn.disable();
         } else {
-//            endBtn.enable();
-//            playBtn.disable();
+            endBtn.enable();
+            playBtn.disable();
         }
 
         if (playBtn.isClicked() && !playBtn.isDisabled()) {

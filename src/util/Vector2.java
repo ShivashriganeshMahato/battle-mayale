@@ -50,6 +50,12 @@ public class Vector2 {
         return this;
     }
 
+    public Vector2 scale(double scale) {
+        x *= scale;
+        y *= scale;
+        return this;
+    }
+
     public void set(double x, double y) {
         this.x = x;
         this.y = y;

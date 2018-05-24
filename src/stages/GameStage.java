@@ -64,10 +64,10 @@ public class GameStage extends Stage {
         addActor(ammoLabel, 20, 50);
 
         storm = new Storm[] {
-                new Storm(0, -4000, 0, 2, game.getPlayers()),
-                new Storm(-4000, 0, 2, 0, game.getPlayers()),
-                new Storm(10000, 0, 0, -2, game.getPlayers()),
-                new Storm(12000, 0, -2, 0, game.getPlayers())
+                new Storm(4000, -4000, 0, 2, game.getPlayers()),
+                new Storm(-4000, 3000, 8/3, 0, game.getPlayers()),
+                new Storm(12000, 3000, -8/3, 0, game.getPlayers()),
+                new Storm(4000, 10000, 0, -2, game.getPlayers())
         };
         for (Storm _storm : storm) {
             addActor(_storm, (int) _storm.getAX(), (int) _storm.getAY());
@@ -79,9 +79,11 @@ public class GameStage extends Stage {
     public void update() {
         stormCounter++;
         if (stormCounter % 1000 == 0) {
-            if ((stormCounter / 1000) % 2 == 0) {
-                for (Storm _storm : storm)
+            if ((stormCounter / 1000) % 5 == 1) {
+                for (Storm _storm : storm) {
+                    _storm.getVelocity().scale(0.75);
                     _storm.start();
+                }
             } else {
                 for (Storm _storm : storm)
                     _storm.end();
